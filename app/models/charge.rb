@@ -15,7 +15,7 @@ class Charge < Adjustment
   end
 
   def calculate_tax_charge
-    return unless order.shipment.address
+    return unless order.shipment && order.shipment.address
     
     zones = Zone.match(order.shipment.address)
     tax_rates = zones.map{|zone| zone.tax_rates}.flatten.uniq
@@ -30,8 +30,12 @@ class Charge < Adjustment
   # from 3 shipping categories, shipping cost will triple.
   # You can alter this behaviour by overwriting this method in your site extension
   def calculate_shipping_charge
-    return unless shipping_method = adjustment_source.shipping_method
-    shipping_method.calculate_cost(adjustment_source)
+    if adjustment_source.cost
+      adjustment_source.cost
+    elsif shipping_method = adjustment_source.shipping_method
+      shipping_method.calculate_cost(adjustment_source)
+    else
+      nil
+    end
   end
-
 end

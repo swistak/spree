@@ -1,4 +1,4 @@
-<h2><%= t('settings') %></h2>
+<h2><%= t('calculator_settings') %></h2>
 
 <%= f.label(:calc_type, t("calculator")) %>
 <%= f.collection_select(:calculator_type, @calculators, :to_s, :description, {}, {:id => "calc-type"}) %>

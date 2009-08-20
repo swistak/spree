@@ -1,6 +1,7 @@
 class Address < ActiveRecord::Base
   belongs_to :country
   belongs_to :state
+  belongs_to :user
   
   has_many :checkouts, :foreign_key => "bill_address_id"
   has_many :shipments
@@ -19,14 +20,15 @@ class Address < ActiveRecord::Base
   def phone_validate
     return if phone.blank?
     n_digits = phone.scan(/[0-9]/).size
-    valid_chars = (phone =~ /^[-+()\/\s\d]+$/)
+    valid_chars = (phone =~ /^[-+.()\/\s\dx]+$/)
     if !(n_digits > 5 && valid_chars)
       errors.add(:phone, "is invalid")
     end
   end
 
-  def self.default
-    new :country => Country.find(Spree::Config[:default_country_id])
+  # can modify an address if it's not been used in an order (but checkouts controller has finer control)
+  def self.default(user = nil)
+    new(:country => Country.find(Spree::Config[:default_country_id]), :user => user)
   end
 
   # can modify an address if it's not been used in an order (but checkouts controller has finer control)
