@@ -34,7 +34,6 @@ class Zone < ActiveRecord::Base
       
   def include?(address)
     return unless address
-    
     # NOTE: This is complicated by the fact that include? for HMP is broken in Rails 2.1 (so we use awkward index method)
     members.any? do |zone_member|
       case zone_member.zoneable_type
@@ -51,17 +50,22 @@ class Zone < ActiveRecord::Base
   end
   
   def self.match(address)
-    zones = []
-    Zone.all.each {|zone| zones << zone if zone.include?(address)}
-    zones
+    Zone.all.select {|zone| zone.include?(address)}
   end
   
   # convenience method for returning the countries contained within a zone (different then the countries method which only
   # returns the zones children and does not consider the grand children if the children themselves are zones)
   def country_list
-    return [] if kind == "state"
-    return members.collect { |zone_member| zone_member.zoneable } if kind == "country"
-    members.collect { |zone_member| zone_member.zoneable.country_list }.flatten
+    members.map {|zone_member|
+      case zone_member.zoneable_type
+      when "Zone"
+        zone_member.country_list
+      when "Country"
+        zone_member.zoneable
+      else
+        nil
+      end
+    }.flatten.compact
   end
   
   def <=>(other)
