@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <%= javascript_include_tag '/states', 'addresses' %>
+<% end %>
+
+<% form_tag do %>
+  <ul class="addresses">
+    <% [:bill_address, :ship_address].each do |address_type| %>
+      <li>
+        <% fields_for address_type do |address_form| %>
+          <% address = instance_variable_get("@#{address_type}") %>
+          <%= render :partial => 'form', :locals => {
+            :address_type => address_type,
+            :address_form => address_form,
+            :address => address
+          } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="form-buttons">
+    <input type="submit" class="submit primary" value="<%=t("update")%>"/>
+  </div>
+<% end %>
