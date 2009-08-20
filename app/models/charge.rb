@@ -30,8 +30,12 @@ class Charge < Adjustment
   # from 3 shipping categories, shipping cost will triple.
   # You can alter this behaviour by overwriting this method in your site extension
   def calculate_shipping_charge
-    return unless shipping_method = adjustment_source.shipping_method
-    shipping_method.calculate_cost(adjustment_source)
+    if adjustment_source.cost
+      adjustment_source.cost
+    elsif shipping_method = adjustment_source.shipping_method
+      shipping_method.calculate_cost(adjustment_source)
+    else
+      nil
+    end
   end
-
 end
