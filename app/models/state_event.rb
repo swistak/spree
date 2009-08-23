@@ -11,5 +11,7 @@ class StateEvent < ActiveRecord::Base
     if current_user_session
       self.user_id ||= current_user_session.user.id
     end
+
+    return(true)
   end
 end
