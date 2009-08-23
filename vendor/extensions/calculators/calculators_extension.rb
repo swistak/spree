@@ -17,6 +17,7 @@ class CalculatorsExtension < Spree::Extension
       Calculator::FlatPercent,
       Calculator::FlatRate,
       Calculator::FlexiRate,
+      Calculator::PriceBucket,
       Calculator::PerItem,
       Calculator::SalesTax,
       Calculator::Vat,

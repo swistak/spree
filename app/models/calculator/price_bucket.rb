@@ -1,8 +1,10 @@
-class Calculator::FlatPercent < Calculator
-  preference :percent, :decimal, :default => 0
+class Calculator::PriceBucket < Calculator
+  preference :minimal_amount, :decimal, :default => 0
+  preference :normal_amount, :decimal, :default => 0
+  preference :discount_amount, :decimal, :default => 0
 
   def self.description
-    I18n.t("flat_percent")
+    I18n.t("price_bucket")
   end
 
   def self.register
@@ -19,7 +21,11 @@ class Calculator::FlatPercent < Calculator
     else
       base = object.respond_to?(:amount) ? object.amount : object.to_d
     end
-    
-    base * self.preferred_flat_percent
+
+    if base >= self.preferred_minimal_amount
+      self.preferred_normal_amount
+    else
+      self.preferred_discount_amount
+    end
   end  
 end
