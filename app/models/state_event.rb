@@ -7,7 +7,8 @@ class StateEvent < ActiveRecord::Base
   end
 
   def before_create
-    if current_user_session = UserSession.find
+    current_user_session = UserSession.find rescue nil
+    if current_user_session
       self.user_id ||= current_user_session.user.id
     end
   end
