@@ -21,6 +21,7 @@ class Order < ActiveRecord::Base
   has_one :checkout
   has_one :bill_address, :through => :checkout
   has_many :shipments, :dependent => :destroy
+  has_one  :shipment, :order => "shipments.created_at ASC"
 
   has_many :adjustments,      :extend => Totaling, :order => :position
   has_many :charges,          :extend => Totaling, :order => :position
@@ -53,15 +54,6 @@ class Order < ActiveRecord::Base
   # attr_accessible is a nightmare with attachment_fu, so use attr_protected instead.
   attr_protected :charge_total, :item_total, :total, :user, :number, :state, :token
 
-  def to_param  
-    self.number if self.number
-    generate_order_number unless self.number
-    self.number.parameterize.to_s.upcase
-  end
-
-  def checkout_complete
-    checkout.completed_at
-  end
   # order state machine (see http://github.com/pluginaweek/state_machine/tree/master for details)
   state_machine :initial => 'in_progress' do    
     after_transition :to => 'in_progress', :do => lambda {|order| order.update_attribute(:checkout_complete, false)}
@@ -89,7 +81,21 @@ class Order < ActiveRecord::Base
       transition :to => 'shipped', :from  => 'paid'
     end
   end
-  
+
+  def before_destroy
+    !checkout_complete
+  end
+
+  def to_param
+    self.number if self.number
+    generate_order_number unless self.number
+    self.number.parameterize.to_s.upcase
+  end
+
+  def checkout_complete
+    checkout.completed_at
+  end
+
   def restore_state
     # pop the resume event so we can see what the event before that was
     state_events.pop if state_events.last.name == "resume"
@@ -145,11 +151,6 @@ class Order < ActiveRecord::Base
     end          
     self.number = random
   end          
-    
-  # convenience method since many stores will not allow user to create multiple shipments
-  def shipment
-    shipments.last
-  end
   
   def contains?(variant)
     line_items.select { |line_item| line_item.variant == variant }.first
