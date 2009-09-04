@@ -531,8 +531,8 @@ pl:
   ssl_will_not_be_used_in_production_mode: "SSL will not be used in production mode"
   start: Start
   start_date: Valid from
-  state: Stan
-  state_based: "State Based"
+  state: Województwo
+  state_based: "Wojewódzki"
   state_setting_description: "Zarządzaj listą stanów/prowincji powiązanych z każdym z krajów."
   states: Stany
   status: Status
@@ -604,6 +604,6 @@ pl:
   your_cart_is_empty: "Your cart is empty"
   zip: "Kod pocztowy"
   zone: Strefa
-  zone_based: "Zone Based"
+  zone_based: "Strefowy"
   zone_setting_description: "Zbiory krajów, stanów i innych stref używane w różnych przeliczeniach."
   zones: Strefy
