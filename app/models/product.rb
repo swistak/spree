@@ -35,6 +35,7 @@ class Product < ActiveRecord::Base
     :dependent => :destroy
   delegate_belongs_to :master, :sku, :price, :weight, :height, :width, :depth, :is_master
   after_create :set_master_variant_defaults
+  after_create :add_properties_and_option_types_from_prototype
   after_save :set_master_on_hand_to_zero_when_product_has_variants    
   after_save :save_master
   
@@ -137,7 +138,7 @@ class Product < ActiveRecord::Base
   # ----------------------------------------------------------------------------------------------------------
   
   def master_price
-    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead." unless RAILS_ENV == 'test'
+    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]})" unless RAILS_ENV == 'test'
     self.price
   end
   
@@ -187,7 +188,6 @@ class Product < ActiveRecord::Base
   def prototype_id=(value)
     @prototype_id = value.to_i
   end
-  after_create :add_properties_and_option_types_from_prototype
   
   def add_properties_and_option_types_from_prototype
     if prototype_id and prototype = Prototype.find_by_id(prototype_id)

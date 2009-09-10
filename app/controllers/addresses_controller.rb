@@ -60,11 +60,11 @@ class AddressesController < Spree::BaseController
     end
   end
 
-  [update, update.failure, create, create.failure].each do |response|
-    response.wants.html { redirect_to :back }
+  [update, create].each do |response|
+    response.wants.html { redirect_back_or_default :action => :index }
   end
 
-  [create, create.failure].each do |response|
+  [update.failure, create.failure].each do |response|
     response.wants.html { render :action => :index }
   end
 
