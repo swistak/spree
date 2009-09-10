@@ -138,12 +138,12 @@ class Product < ActiveRecord::Base
   # ----------------------------------------------------------------------------------------------------------
   
   def master_price
-    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]})" unless RAILS_ENV == 'test'
+    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]}"
     self.price
   end
   
   def master_price=(value)
-    warn "[DEPRECATION] `Product.master_price=` is deprecated.  Please use `Product.price=` instead. (called from #{caller[0]})"
+    warn "[DEPRECATION] `Product.master_price=` is deprecated.  Please use `Product.price=` instead. (called from #{caller[0]}"
     self.price = value
   end
   
