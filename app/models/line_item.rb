@@ -41,7 +41,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def after_destroy
-    order.update_totals
+    order.update_totals!
   end
 end
 
