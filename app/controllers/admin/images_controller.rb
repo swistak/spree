@@ -10,6 +10,10 @@ class Admin::ImagesController < Admin::BaseController
 	create.response do |wants|
 		wants.html {redirect_to admin_product_images_url(@product)}
   end
+
+  update.response do |wants|
+		wants.html {redirect_to admin_product_images_url(@product)}
+  end
 	
 	create.before do
 		if params.has_key? :viewable_id
