@@ -17,7 +17,8 @@ class Calculator < ActiveRecord::Base
 
   @@calculators = Set.new
   # Registers calculator to be used with selected kinds of operations
-  def self.register
+  def self.register(*models)
+    models.flatten.each{|model| model.register_calculator(self)}
     @@calculators.add(self)
   end
 
