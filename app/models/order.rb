@@ -227,6 +227,7 @@ class Order < ActiveRecord::Base
   def complete_order
     checkout.update_attribute(:completed_at, Time.now)
     InventoryUnit.sell_units(self)
+    adjustments.each(&:update_amount)
     save_result = save!
     if email
       OrderMailer.deliver_confirm(self)
