@@ -9,8 +9,6 @@ class Adjustment < ActiveRecord::Base
   validates_numericality_of :amount
 
   before_save do |record|
-    new_amount = record.calculate_adjustment
-    record.amount = new_amount if new_amount
     record.secondary_type ||= record.type
   end
 
