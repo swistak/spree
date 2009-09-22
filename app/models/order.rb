@@ -212,7 +212,11 @@ class Order < ActiveRecord::Base
   def update_totals
     self.item_total       = self.line_items.total
 
-    charges.reload.each(&:update_amount)
+    # save the items which might be changed by an order update, so that
+    # charges can be recalculated accurately.
+    self.line_items.map(&:save)
+
+    adjustments.reload.each(&:update_amount)
     self.adjustment_total = self.charge_total - self.credit_total
 
     self.total            = self.item_total   + self.adjustment_total
@@ -224,15 +228,18 @@ class Order < ActiveRecord::Base
   end
 
   private
-  
+ 
   def complete_order
     checkout.update_attribute(:completed_at, Time.now)
-    InventoryUnit.sell_units(self)
-    save_result = save!
-    if email
-      OrderMailer.deliver_confirm(self)
+    begin
+      InventoryUnit.sell_units(self)
+      adjustments.each(&:update_amount)
+      save!
+      OrderMailer.deliver_confirm(self) if email
+    rescue Exception => e
+      logger.error "Problem saving authorized order: #{e.message}"
+      logger.error self.to_yaml
     end
-    save_result
   end
 
   def cancel_order
