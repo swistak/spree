@@ -8,9 +8,9 @@ class CreateAdminUser
   
   def self.call(env)
     session = env["rack.session"]
-    return CONTINUE_CHAIN if env["PATH_INFO"] =~ /^\/users/ or session['admin-user'] or not User.table_exists?
-    session['admin-user'] = User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])
-    return CONTINUE_CHAIN if session['admin-user'] 
+    return CONTINUE_CHAIN if env["PATH_INFO"] =~ /^\/users/ or session['spree-admin-user-present'] or not User.table_exists?
+    session['spree-admin-user-present'] = !!User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])
+    return CONTINUE_CHAIN if session['spree-admin-user-present']
     # redirect to user creation
     [302, {'Location'=> '/users/new' }, []]
   ensure

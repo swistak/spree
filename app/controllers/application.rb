@@ -6,9 +6,6 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
 
-  # Pick a unique cookie name to distinguish our session data from others'
-  session_options['session_key'] = '_spree_session_id'
-
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   #include AuthenticatedSystem

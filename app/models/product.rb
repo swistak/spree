@@ -43,8 +43,8 @@ class Product < ActiveRecord::Base
     :conditions => ["variants.is_master = ? AND variants.deleted_at IS NULL", false],
     :dependent => :destroy
 
-    validates_presence_of :name
-    validates_presence_of :price
+  validates_presence_of :name
+  validates_presence_of :price
 
   accepts_nested_attributes_for :product_properties
   
@@ -70,17 +70,17 @@ class Product < ActiveRecord::Base
   named_scope :taxons_id_in_tree_any, lambda {|*taxons| 
     taxons = [taxons].flatten
     { :conditions => [ "products.id in (select product_id from products_taxons where taxon_id in (?))", 
-                       taxons.map    {|i| i.is_a?(Taxon) ? i : Taxon.find(i)}.
-                              reject {|t| t.nil?}.
-                              map    {|t| [t] + t.descendents}.flatten ]}
+        taxons.map    {|i| i.is_a?(Taxon) ? i : Taxon.find(i)}.
+          reject {|t| t.nil?}.
+          map    {|t| [t] + t.descendents}.flatten ]}
   }
 
   # a simple test for product with a certain property-value pairing
   # it can't test for NULLs and can't be cascaded - see :with_property 
   named_scope :with_property_value, lambda { |property, value| 
     Product.product_properties_property_id_equals(property).
-            product_properties_value_equals(value).
-            scope :find
+      product_properties_value_equals(value).
+      scope :find
   }   # coded this way to demonstrate composition
 
 
@@ -93,23 +93,23 @@ class Product < ActiveRecord::Base
   #   to a point where results aren't swamped by nulls, hence no inner join version
   named_scope :with_property,
     lambda {|property,*args|
-      name = args.empty? ? "product_properties" : args.first
-      property_id = case property
-                      when Property then property.id 
-                      when Fixnum   then property
-                    end
-      return {} if property_id.nil?
-      { :joins => "left outer join product_properties #{name} on products.id = #{name}.product_id and #{name}.property_id = #{property_id}"}
-    }
+    name = args.empty? ? "product_properties" : args.first
+    property_id = case property
+    when Property then property.id
+    when Fixnum   then property
+    end
+    return {} if property_id.nil?
+    { :joins => "left outer join product_properties #{name} on products.id = #{name}.product_id and #{name}.property_id = #{property_id}"}
+  }
                      
 
   # add in option_values_variants to the query
   # this is the common info required for all options searches
   named_scope :with_variant_options,
     Product.
-      scoped(:joins => :variants).
-      scoped(:joins => "join option_values_variants on variants.id = option_values_variants.variant_id").
-      scope(:find)
+    scoped(:joins => :variants).
+    scoped(:joins => "join option_values_variants on variants.id = option_values_variants.variant_id").
+    scope(:find)
 
   # select products which have an option of the given type
   # this sets up testing on specific option values, eg colour = red
@@ -120,16 +120,16 @@ class Product < ActiveRecord::Base
   # TODO: speed test on nest vs join
   named_scope :with_option,
     lambda {|opt_type,*args|
-      name   = args.empty? ? "option_types" : args.first
-      opt_id = case opt_type
-                 when OptionType then opt_type.id 
-                 when Fixnum     then opt_type
-               end
-      return {} if opt_id.nil?
-      Product.with_variant_options.
-              scoped(:joins => "join (select presentation, id from option_values where option_type_id = #{opt_id}) #{name} on #{name}.id = option_values_variants.option_value_id").
-              scope(:find)
-    }
+    name   = args.empty? ? "option_types" : args.first
+    opt_id = case opt_type
+    when OptionType then opt_type.id
+    when Fixnum     then opt_type
+    end
+    return {} if opt_id.nil?
+    Product.with_variant_options.
+      scoped(:joins => "join (select presentation, id from option_values where option_type_id = #{opt_id}) #{name} on #{name}.id = option_values_variants.option_value_id").
+      scope(:find)
+  }
 
   # ----------------------------------------------------------------------------------------------------------
   #
@@ -138,15 +138,14 @@ class Product < ActiveRecord::Base
   # ----------------------------------------------------------------------------------------------------------
   
   def master_price
-    warn "[DEPRECATION] `Product.master_price` is deprecated.  Please use `Product.price` instead. (called from #{caller[0]}"
-    self.price
+    read_attribute(:master_price)
   end
   
   def master_price=(value)
-    warn "[DEPRECATION] `Product.master_price=` is deprecated.  Please use `Product.price=` instead. (called from #{caller[0]}"
     self.price = value
+    write_attribute(:master_price, value)
   end
-  
+
   def variants?
     warn "[DEPRECATION] `Product.variants?` is deprecated.  Please use `Product.has_variants?` instead. (called from #{caller[0]})"
     self.has_variants?
