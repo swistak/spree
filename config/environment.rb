@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-SPREE_GEM_VERSION = '0.8.99' unless defined? SPREE_GEM_VERSION
+SPREE_GEM_VERSION = '0.9.99' unless defined? SPREE_GEM_VERSION
           
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -37,7 +37,7 @@ Spree::Initializer.run do |config|
   config.gem 'rsl-stringex', :lib => 'stringex', :source => "http://gems.github.com"
   config.gem 'chronic' #required for whenever
   config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
-  config.gem 'searchlogic', :version => '2.1.13'
+  config.gem 'searchlogic', :version => '>= 2.3.5'
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
         :source => 'http://gems.github.com'
 

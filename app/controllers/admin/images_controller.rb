@@ -16,13 +16,17 @@ class Admin::ImagesController < Admin::BaseController
   end
 	
 	create.before do
-		if params.has_key? :viewable_id
-			if params[:viewable_id] == "All"
+		if params[:image].has_key? :viewable_id
+			if params[:image][:viewable_id] == "All"
 				object.viewable_type = 'Product'
+				object.viewable_id = @product.id
 			else
 				object.viewable_type = 'Variant'
-				object.viewable_id = params[:viewable_id]
+				object.viewable_id = params[:image][:viewable_id]
 			end
+		else
+			object.viewable_type = 'Product'
+			object.viewable_id = @product.id
 		end
 	end
 	
@@ -37,6 +41,7 @@ class Admin::ImagesController < Admin::BaseController
   end
  
   private
+
   def load_data
 		@product = Product.find_by_permalink(params[:product_id])
 		@variants = @product.variants.collect do |variant| 

@@ -166,6 +166,7 @@ pl:
   add_state: "Dodaj Województwo"
   add_to_cart: "Dodaj do koszyka"
   add_zone: "Dodaj strefę"
+  additional_item: Koszt dodatkowego przedmiotu
   address: Adres
   address_information: "Dane adresowe"
   adjustment: Dostosowanie
@@ -284,6 +285,7 @@ pl:
   'false': Nie
   filename: "Nazwa pliku"
   final_confirmation: "Ostateczne potwierdzenie"
+  first_item: First Item Cost
   first_name: Imię
   flat_percent: "Procentowo od wartości zamówienia"
   flat_rate_amount: Kwota
