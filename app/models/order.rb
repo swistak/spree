@@ -21,7 +21,6 @@ class Order < ActiveRecord::Base
   has_one :checkout
   has_one :bill_address, :through => :checkout
   has_many :shipments, :dependent => :destroy
-  has_one  :shipment, :order => "shipments.created_at ASC"
 
   has_many :adjustments,      :extend => Totaling, :order => :position
   has_many :charges,          :extend => Totaling, :order => :position
@@ -153,6 +152,11 @@ class Order < ActiveRecord::Base
     end          
     self.number = random
   end          
+    
+  # convenience method since many stores will not allow user to create multiple shipments
+  def shipment
+    shipments.last
+  end
   
   def contains?(variant)
     line_items.select { |line_item| line_item.variant == variant }.first
@@ -236,6 +240,7 @@ class Order < ActiveRecord::Base
       adjustments.each(&:update_amount)
       save!
       OrderMailer.deliver_confirm(self) if email
+      true
     rescue Exception => e
       logger.error "Problem saving authorized order: #{e.message}"
       logger.error self.to_yaml

@@ -1,7 +1,6 @@
 class Admin::ImagesController < Admin::BaseController
   resource_controller
-  before_filter :load_data, :except => :create
-	belongs_to :variant, :product
+  before_filter :load_data
 	
 	new_action.response do |wants|
     wants.html {render :action => :new, :layout => false}
