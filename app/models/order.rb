@@ -262,6 +262,7 @@ class Order < ActiveRecord::Base
     to_wipe = self.line_items.select {|li| 0 == li.quantity || li.quantity.nil? }
     LineItem.destroy(to_wipe)
     self.line_items -= to_wipe      # important: remove defunct items, avoid a reload
+    true
   end
   
   def generate_token

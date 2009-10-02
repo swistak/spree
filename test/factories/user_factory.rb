@@ -2,7 +2,6 @@ require 'faker'
 
 Factory.define(:user) do |record|
   record.email { Faker::Internet.email }
-  record.login { Faker::Internet.user_name }
   record.password "spree"
   record.password_confirmation "spree"
 
