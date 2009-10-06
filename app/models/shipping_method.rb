@@ -1,6 +1,6 @@
 class ShippingMethod < ActiveRecord::Base
   belongs_to :zone
-  has_many :shipping_rates
+  has_many :shipping_rates, :dependant => :destroy
   has_many :shipments
 
   has_calculator
