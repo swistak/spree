@@ -83,12 +83,12 @@ module RoleRequirementSystem
         
         if options.has_key?(:if)
           # execute the proc.  if the procedure returns false, we don't need to authenticate these roles
-          next unless ( String===options[:if] ? eval(options[:if], binding) : options[:if].call(params) )
+          next unless ( String===options[:if] ? eval(options[:if], binding, __FILE__, __LINE__) : options[:if].call(params) )
         end
         
         if options.has_key?(:unless)
           # execute the proc.  if the procedure returns true, we don't need to authenticate these roles
-          next if ( String===options[:unless] ? eval(options[:unless], binding) : options[:unless].call(params) )
+          next if ( String===options[:unless] ? eval(options[:unless], binding, __FILE__, __LINE__) : options[:unless].call(params) )
         end
         
         # check to see if they have one of the required roles

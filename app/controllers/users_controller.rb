@@ -2,7 +2,7 @@ class UsersController < Spree::BaseController
   resource_controller
   
   before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :require_user, :except => [:new, :create]
   before_filter :initialize_extension_partials
   ssl_required :new, :create, :edit, :update, :show
   
