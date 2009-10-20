@@ -16,9 +16,9 @@ class Variant < ActiveRecord::Base
   # default extra fields for shipping purposes 
   @fields = [
       {:name => 'Weight', :only => [:variant], :format => "%.2f kg"},
-      {:name => 'Height', :only => [:variant], :format => "%.2f m"},
-      {:name => 'Width',  :only => [:variant], :format => "%.2f m"},
-      {:name => 'Depth',  :only => [:variant], :format => "%.2f m"}
+      {:name => 'Height', :only => [:variant], :format => "%.2f cm"},
+      {:name => 'Width',  :only => [:variant], :format => "%.2f cm"},
+      {:name => 'Depth',  :only => [:variant], :format => "%.2f cm"}
   ]
 
   # Returns number of inventory units for this variant (new records haven't been saved to database, yet)
