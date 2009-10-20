@@ -14,10 +14,12 @@ class Variant < ActiveRecord::Base
   named_scope :deleted, :conditions => "not variants.deleted_at is null"
  
   # default extra fields for shipping purposes 
-  @fields = [ {:name => 'Weight', :only => [:variant], :format => "%.2f"},
-              {:name => 'Height', :only => [:variant], :format => "%.2f"},
-              {:name => 'Width',  :only => [:variant], :format => "%.2f"},
-              {:name => 'Depth',  :only => [:variant], :format => "%.2f"} ]
+  @fields = [
+      {:name => 'Weight', :only => [:variant], :format => "%.2f kg"},
+      {:name => 'Height', :only => [:variant], :format => "%.2f m"},
+      {:name => 'Width',  :only => [:variant], :format => "%.2f m"},
+      {:name => 'Depth',  :only => [:variant], :format => "%.2f m"}
+  ]
 
   # Returns number of inventory units for this variant (new records haven't been saved to database, yet)
   def on_hand

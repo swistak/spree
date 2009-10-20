@@ -3,6 +3,8 @@ class ShippingMethod < ActiveRecord::Base
   has_many :shipping_rates, :dependent => :destroy
   has_many :shipments
 
+  validates_length_of :name, :minimum => 2
+
   has_calculator
    
   def calculate_cost(shipment)
