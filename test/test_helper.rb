@@ -1,5 +1,5 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment") unless SPREE_ROOT
 require 'test_help'
 require "authlogic/test_case"
 
@@ -37,9 +37,9 @@ class TestCouponCalc
   end
 end
 
-class Zone
+Zone.class_eval do
   def self.global
-    find_by_name("GlobalZone") || Factory(:global_zone)
+    find(:first, :conditions => {:name => "GlobalZone"}) || Factory(:global_zone)
   end
 end
 
