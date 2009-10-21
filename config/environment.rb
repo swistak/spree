@@ -33,13 +33,12 @@ Spree::Initializer.run do |config|
   config.gem 'activerecord-tableless', :lib => 'tableless', :version => '>=0.1.0'
   config.gem 'haml-edge', :lib=> 'haml', :version => ">=2.1.37"
   config.gem 'chriseppstein-compass', :lib => 'compass', :source => "http://gems.github.com", :version => '0.6.15'
-  config.gem 'calendar_date_select', :version => '1.15'    
   config.gem 'rsl-stringex', :lib => 'stringex', :source => "http://gems.github.com"
   config.gem 'chronic' #required for whenever
   config.gem 'javan-whenever', :lib => false, :source => 'http://gems.github.com'
   config.gem 'searchlogic', :version => '>= 2.3.5'
-  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', 
-        :source => 'http://gems.github.com'
+  config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
+  config.gem 'pluginaweek-state_machine', :version => '0.8.0', :lib => 'state_machine', :source => 'http://gems.github.com'
 
 
   # Only load the plugins named here, in the order given. By default, all plugins 

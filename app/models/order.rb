@@ -25,11 +25,11 @@ class Order < ActiveRecord::Base
   has_many :adjustments,      :extend => Totaling, :order => :position
   has_many :charges,          :extend => Totaling, :order => :position
   has_many :shipping_charges, :extend => Totaling, :order => :position,
-    :class_name => "Charge", :conditions => {:secondary_type => "ShippingCharge"}
+    :class_name => "ShippingCharge", :conditions => {:type => "ShippingCharge"}
   has_many :tax_charges,      :extend => Totaling, :order => :position,
-    :class_name => "Charge", :conditions => {:secondary_type => "TaxCharge"}
+    :class_name => "TaxCharge", :conditions => {:type => "TaxCharge"}
   has_many :credits,          :extend => Totaling, :order => :position
-  has_many :coupon_credits, :class_name => "Credit", :extend => Totaling, :conditions => {:adjustment_source_type => "Coupon"}, :order => :position
+  has_many :coupon_credits, :class_name => "CouponCredit", :extend => Totaling, :conditions => {:type => "CouponCredit"}, :order => :position
   has_many :non_zero_charges, :class_name => "Charge", :conditions => ["amount > 0"]
 
   accepts_nested_attributes_for :checkout  
@@ -142,6 +142,8 @@ class Order < ActiveRecord::Base
       end
       current_item.update_attribute(field[:name].gsub(" ", "_").downcase, value)
     end
+
+    current_item
   end
 
   def generate_order_number                
@@ -213,14 +215,19 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def update_totals
+  def update_totals(force_adjustment_recalculation=false)
     self.item_total       = self.line_items.total
 
     # save the items which might be changed by an order update, so that
     # charges can be recalculated accurately.
     self.line_items.map(&:save)
 
-    adjustments.reload.each(&:update_amount)
+    if !self.checkout_complete || force_adjustment_recalculation
+      applicable_adjustments, adjustments_to_destroy = adjustments.partition{|a| a.applicable?}
+      self.adjustments = applicable_adjustments
+      adjustments_to_destroy.each(&:destroy)
+    end
+    
     self.adjustment_total = self.charge_total - self.credit_total
 
     self.total            = self.item_total   + self.adjustment_total
@@ -231,10 +238,21 @@ class Order < ActiveRecord::Base
     save!
   end
 
+  def update_adjustments
+    self.adjustments.each(&:update_amount)
+    update_totals(:force_adjustment_update)
+    self
+  end
+   
   private
  
   def complete_order
     checkout.update_attribute(:completed_at, Time.now)
+    self.update_attribute(:checkout_complete, true)
+    
+    if email
+      OrderMailer.deliver_confirm(self)
+    end
     begin
       InventoryUnit.sell_units(self)
       adjustments.each(&:update_amount)
