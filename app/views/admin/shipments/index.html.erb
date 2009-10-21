@@ -11,7 +11,7 @@
   <% @shipments.each do |shipment| %>
     <tr>
       <td><%= shipment.number %></td>
-      <td><%= shipment.shipping_method.name if shipment.shipping_method %></td>
+      <td><%= shipment.shipping_method_name %></td>
       <td><%= shipment.cost %></td>
       <td><%= shipment.tracking %></td>
       <td><%= shipment.shipped_at.to_s(:date_time24) if shipment.shipped_at %></td>

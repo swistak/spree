@@ -39,9 +39,5 @@ class LineItem < ActiveRecord::Base
   def adjust_quantity    
     self.quantity = 0 if self.quantity.nil? || self.quantity < 0
   end
-
-  def after_destroy
-    order.update_totals!
-  end
 end
 

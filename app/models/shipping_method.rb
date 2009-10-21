@@ -1,7 +1,9 @@
 class ShippingMethod < ActiveRecord::Base
   belongs_to :zone
-  has_many :shipping_rates
+  has_many :shipping_rates, :dependent => :destroy
   has_many :shipments
+
+  validates_length_of :name, :minimum => 2
 
   has_calculator
    

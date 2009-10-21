@@ -1,3 +1,3 @@
 class Charge < Adjustment
-
+  
 end

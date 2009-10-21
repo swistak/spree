@@ -247,13 +247,9 @@ class Order < ActiveRecord::Base
   private
  
   def complete_order
-    checkout.update_attribute(:completed_at, Time.now)
-    self.update_attribute(:checkout_complete, true)
-    
-    if email
-      OrderMailer.deliver_confirm(self)
-    end
     begin
+      checkout.update_attribute(:completed_at, Time.now)
+      self.update_attribute(:checkout_complete, true)
       InventoryUnit.sell_units(self)
       adjustments.each(&:update_amount)
       save!
@@ -280,6 +276,7 @@ class Order < ActiveRecord::Base
     to_wipe = self.line_items.select {|li| 0 == li.quantity || li.quantity.nil? }
     LineItem.destroy(to_wipe)
     self.line_items -= to_wipe      # important: remove defunct items, avoid a reload
+    true
   end
   
   def generate_token
