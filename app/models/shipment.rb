@@ -2,7 +2,7 @@ class Shipment < ActiveRecord::Base
   belongs_to :order
   belongs_to :shipping_method
   belongs_to :address
-  has_one    :charge,   :as => :adjustment_source
+  has_one    :charge,   :as => :adjustment_source, :dependent => :destroy
 
   before_create :generate_shipment_number
   after_save :transition_order

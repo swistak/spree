@@ -10,19 +10,19 @@ class Order < ActiveRecord::Base
   after_create :create_checkout_and_shippment, :create_tax_charge
 
   belongs_to :user
-  has_many :state_events
+  has_many :state_events, :dependent => :destroy
 
   has_many :line_items, :extend => Totaling, :dependent => :destroy
-  has_many :inventory_units
+  has_many :inventory_units, :dependent => :destroy
 
   has_many :payments,            :extend => Totaling
   has_many :creditcard_payments, :extend => Totaling
 
-  has_one :checkout
+  has_one :checkout, :dependent => :destroy
   has_one :bill_address, :through => :checkout
   has_many :shipments, :dependent => :destroy
 
-  has_many :adjustments,      :extend => Totaling, :order => :position
+  has_many :adjustments,      :extend => Totaling, :order => :position, :dependent => :destroy
   has_many :charges,          :extend => Totaling, :order => :position
   has_many :shipping_charges, :extend => Totaling, :order => :position,
     :class_name => "Charge", :conditions => {:secondary_type => "ShippingCharge"}
