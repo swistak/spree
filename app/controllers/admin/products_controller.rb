@@ -49,6 +49,10 @@ class Admin::ProductsController < Admin::BaseController
     
     redirect_to collection_url
   end
+
+  def show
+    redirect_to :action => 'edit'
+  end
   
   private
     def load_data
