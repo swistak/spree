@@ -36,6 +36,6 @@ class ProductsController < Spree::BaseController
   end
 
   def collection
-    retrive_products
+    retrieve_products
   end
 end

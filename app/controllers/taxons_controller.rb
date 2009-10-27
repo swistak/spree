@@ -9,7 +9,7 @@ class TaxonsController < Spree::BaseController
 
   private
   def load_data
-    retrive_products
+    retrieve_products
   end
 
   def object

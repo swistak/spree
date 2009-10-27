@@ -1,5 +1,5 @@
 module Spree::Search
-  def retrive_products
+  def retrieve_products
     # taxon might be already set if this method is called from TaxonsController#show
     @taxon ||= params[:taxon] && Taxon.find_by_id(params[:taxon])
     @keywords = params[:keywords]
