@@ -2,7 +2,7 @@ class Coupon < ActiveRecord::Base
   has_many  :coupon_credits,    :as => :adjustment_source
   has_calculator
   alias credits coupon_credits
-     
+
   validates_presence_of :code
   
   def eligible?(order)
