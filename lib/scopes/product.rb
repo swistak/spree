@@ -39,6 +39,8 @@ module Scopes::Product
     :by_popularity,
   ]
 
+  ::Product # This is here to load proper Product model constant in dev mode
+
   # default product scope only lists available and non-deleted products
   Product.named_scope :active,      lambda { |*args|
     Product.not_deleted.available(args.first).scope(:find)
