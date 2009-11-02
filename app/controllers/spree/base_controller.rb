@@ -1,3 +1,5 @@
+require 'spree/hook'
+
 class Spree::BaseController < ActionController::Base
   layout 'spree_application'
   helper :application
@@ -11,7 +13,7 @@ class Spree::BaseController < ActionController::Base
 
   include RoleRequirementSystem
   include EasyRoleRequirementSystem
-  include SslRequirement
+  include SslRequirement  
 
   def admin_created?
     User.first(:include => :roles, :conditions => ["roles.name = 'admin'"])

@@ -92,3 +92,4 @@ Time::DATE_FORMATS[:short_date] = "%Y-%m-%d"
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+

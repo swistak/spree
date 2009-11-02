@@ -34,5 +34,9 @@ class ThemeDefaultExtension < Spree::Extension
     # Spree::BaseController.class_eval do
     #   helper YourHelper
     # end
+    
+    
+    Spree::Hook.add_listener(ThemeDefaultHooks)
+    
   end
 end
