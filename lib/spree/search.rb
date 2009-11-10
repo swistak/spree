@@ -2,7 +2,12 @@ module Spree::Search
   def retrieve_products
     # taxon might be already set if this method is called from TaxonsController#show
     @taxon ||= params[:taxon] && Taxon.find_by_id(params[:taxon])
+    # add taxon id to params for searcher
+    params[:taxon] = @taxon.id if @taxon
     @keywords = params[:keywords]
+
+    # Prepare a search within the parameters
+    Spree::Config.searcher.prepare(params)
 
     if params[:product_group_name]
       @product_group = ProductGroup.find_by_permalink(params[:product_group_name])
@@ -18,9 +23,11 @@ module Spree::Search
     
     params[:search] = @product_group.scopes_to_hash
 
-    @products_scope = @product_group.apply_on(Product.active)
+    base_scope = Spree::Config[:allow_backorders] ? Product.active : Product.active.on_hand
+    @products_scope = @product_group.apply_on(base_scope)
 
     @products = @products_scope.paginate({
+        :include  => [:images, {:variants => :images}],
         :per_page => params[:per_page],
         :page     => params[:page],
       })

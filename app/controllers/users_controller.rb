@@ -8,19 +8,27 @@ class UsersController < Spree::BaseController
   ssl_required :new, :create, :edit, :update, :show
   
   actions :all, :except => [:index, :destroy]
-
-  def create
-    @user = User.new(params[:user])
-    @user.save do |result|
-      if result
-        flash[:notice] = t(:user_created_successfully)
-        @user.roles << Role.find_by_name("admin") unless admin_created?
-        redirect_back_or_default account_url
-      else
-        render :action => :new
-      end
-    end
-  end
+	
+	#Cannot use resource_controller for create action
+	#as openID expects block passed to user.save method
+	def create
+	  @user = User.new(params[:user])
+	  @user.save do |result|
+	    if result
+	      flash[:notice] = t(:user_created_successfully)
+	      @user.roles << Role.find_by_name("admin") unless admin_created?
+	      respond_to do |format|
+	        format.html { redirect_back_or_default products_url }
+	        format.js { render :js => true.to_json }
+	      end
+	    else
+	      respond_to do |format|
+	        format.html { render :action => :new }
+	        format.js { render :js => @user.errors.to_json }
+	      end
+	    end
+	  end
+	end
 
   show.before do
     @orders = @user.orders.checkout_complete 

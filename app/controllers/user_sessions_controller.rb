@@ -27,14 +27,14 @@ class UserSessionsController < Spree::BaseController
     redirect_to products_path
   end
   
-  def login_bar
-    render :partial => "shared/login_bar"
+  def nav_bar
+    render :partial => "shared/nav_bar"
   end
   
   private
   
   def user_with_openid_exists?(data)
-    data && data[:openid_identifier] &&
+    data && !data[:openid_identifier].blank? &&
       !!User.find(:first, :conditions => ["openid_identifier LIKE ?", "%#{data[:openid_identifier]}%"])
   end
   
@@ -44,7 +44,7 @@ class UserSessionsController < Spree::BaseController
   
   def create_user_session(data)
     @user_session = UserSession.new(data)
-    @user_session.save do |result|  
+    @user_session.save do |result|
       if result
         respond_to do |format|
           format.html {
@@ -59,13 +59,14 @@ class UserSessionsController < Spree::BaseController
       else
         respond_to do |format|
           format.html {
-            flash.now[:error] = t("login_failed")           
+            flash.now[:error] = t("login_failed")
             render :action => :new
           }
           format.js { render :json => false }
         end
       end
     end
+    redirect_back_or_default(products_path) unless performed?
   end
   
   def create_user(data)
@@ -74,7 +75,7 @@ class UserSessionsController < Spree::BaseController
     @user.save do |result|
       if result
         flash[:notice] = t(:user_created_successfully)
-        redirect_back_or_default account_url
+        redirect_back_or_default products_url
       else
         flash[:notice] = t(:missing_required_information)
         redirect_to :controller => :users, :action => :new, :user => {:openid_identifier => @user.openid_identifier}
