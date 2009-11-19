@@ -31,8 +31,8 @@ private
     end
   end
 
-  def add_extension_admin_tab(tab_args)
-    @extension_tabs << tab_args
+  def add_extension_admin_tab(*tab_args)
+    @extension_tabs << tab_args.flatten
   end
 
   def initialize_extension_tabs
