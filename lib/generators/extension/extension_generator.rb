@@ -20,12 +20,14 @@ class ExtensionGenerator < Rails::Generator::NamedBase
       m.directory "#{extension_path}/lib/tasks"
       m.directory "#{extension_path}/config/initializers"
       m.directory "#{extension_path}/public"
+      m.directory "#{extension_path}/public/stylesheets"
 
-      m.template 'README.markdown',              "#{extension_path}/README.markdown"
-      m.template 'extension.rb',        "#{extension_path}/#{extension_file_name}.rb"
-      m.template 'tasks.rake',          "#{extension_path}/lib/tasks/#{extension_file_name}_tasks.rake"
-      m.template 'routes.rb',          "#{extension_path}/config/routes.rb"  
-      m.template 'seeds.rb', "#{extension_path}/db/seeds.rb"
+      m.template 'README.markdown',   "#{extension_path}/README.markdown"
+      m.template 'extension.rb',      "#{extension_path}/#{extension_file_name}.rb"
+      m.template 'tasks.rake',        "#{extension_path}/lib/tasks/#{extension_file_name}_tasks.rake"
+      m.template 'routes.rb',         "#{extension_path}/config/routes.rb"
+      m.template 'seeds.rb',          "#{extension_path}/db/seeds.rb"
+      m.template 'style.css',         "#{extension_path}/public/stylesheets/#{extension_file_name}.css"
 
       if options[:with_test_unit]
         m.directory "#{extension_path}/test/fixtures"

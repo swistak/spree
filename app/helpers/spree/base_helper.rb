@@ -42,19 +42,19 @@ module Spree::BaseHelper
 
   def add_product_link(text, product) 
     link_to_remote text, {:url => {:controller => "cart", 
-              :action => "add", :id => product}}, 
-              {:title => "Add to Cart", 
-               :href => url_for( :controller => "cart", 
-                          :action => "add", :id => product)} 
+        :action => "add", :id => product}},
+      {:title => "Add to Cart",
+      :href => url_for( :controller => "cart",
+        :action => "add", :id => product)}
   end 
   
   def remove_product_link(text, product) 
     link_to_remote text, {:url => {:controller => "cart", 
-                       :action => "remove", 
-                       :id => product}}, 
-                       {:title => "Remove item", 
-                         :href => url_for( :controller => "cart", 
-                                     :action => "remove", :id => product)} 
+        :action => "remove",
+        :id => product}},
+      {:title => "Remove item",
+      :href => url_for( :controller => "cart",
+        :action => "remove", :id => product)}
   end 
   
   def todays_short_date
@@ -117,6 +117,30 @@ module Spree::BaseHelper
       end
     end
     return output
+  end
+
+  # Loads stylesheets named like extension_name.underscore.
+  # It assumes they are copied to main directory, and looks for then there
+  # if they are found they are included in header, in order of declaration in env.rb
+  def extension_stylesheets
+    Spree::ExtensionLoader.instance.extensions.map{|ext|
+      ext_css_name = ext.extension_name.underscore+"_extension"
+      if File.exist?(File.join(RAILS_ROOT, 'public', 'stylesheets', ext_css_name+".css"))
+        stylesheet_link_tag(ext_css_name)
+      end
+    }.compact.join("\n")
+  end
+
+  # Loads javascript internotialization script if found for the language.
+  # it first tries to do full match (like en-US or pt-BR) then tries partial one like 'en' or 'pt'
+  def i18n_javascript
+    if File.exists?(File.join(RAILS_ROOT, 'public', 'javascripts', 'localization', "messages_#{I18n.locale.to_s}.js"))
+      javascript_include_tag "localization/messages_#{I18n.locale.to_s}"
+    elsif File.exists?(File.join(RAILS_ROOT, 'public', 'javascripts', 'localization', "messages_#{I18n.locale.to_s[0..1]}.js"))
+      javascript_include_tag "localization/messages_#{I18n.locale.to_s[0..1]}"
+    else
+      ""
+    end
   end
   
   def stylesheet_paths
