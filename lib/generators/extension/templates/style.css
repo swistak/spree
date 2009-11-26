@@ -1,0 +1,7 @@
+/* 
+  This is stylesheet for <%= extension_name %> Extension.
+  If youre extending spree functionality, all stylesheets related to your 
+  extension should be placed here.
+
+  Stylesheets will be placed in resulting header in order of loading of extensions
+*/
