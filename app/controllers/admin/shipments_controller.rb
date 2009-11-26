@@ -30,7 +30,8 @@ class Admin::ShipmentsController < Admin::BaseController
   private
   def build_object
     @object ||= end_of_association_chain.send parent? ? :build : :new, object_params
-    @object.address = Address.new(:country_id => Spree::Config[:default_country_id]) unless @object.address
+    @object.address ||= @order.ship_address
+    @object.address ||= Address.new(:country_id => Spree::Config[:default_country_id])
     @object
   end
   
@@ -39,6 +40,7 @@ class Admin::ShipmentsController < Admin::BaseController
     @selected_country_id = params[:shipment_presenter][:address_country_id].to_i if params.has_key?('shipment_presenter')
     @selected_country_id ||= @order.bill_address.country_id unless @order.nil? || @order.bill_address.nil?  
     @selected_country_id ||= Spree::Config[:default_country_id]
+    @shipping_methods = ShippingMethod.all
  
     @states = State.find_all_by_country_id(@selected_country_id, :order => 'name')  
     @countries = @order.shipping_countries
