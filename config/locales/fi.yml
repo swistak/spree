@@ -233,6 +233,13 @@ fi:
   complete: valmis
   complete_list: "Täydellinen lista"
   configuration: Asetus
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: Asetusvaihteohdot
   configurations: Asetukset
   confirm: Vahvista

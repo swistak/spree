@@ -233,6 +233,13 @@ en-GB:
   complete: complete
   complete_list: "Complete List"
   configuration: Configuration
+  configuration_controller:
+    general: General configuration
+    taxation: Taxation configuration
+    shipping: Shipping configuration
+    payment: Payment methods configuration
+    other: Other configuratation
+    extensions: Configuration of extensions
   configuration_options: "Configuration Options"
   configurations: Configurations
   confirm: Confirm

@@ -233,6 +233,13 @@ da:
   complete: complete
   complete_list: "Complete List"
   configuration: Configuration
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other: 
+    extensions: 
   configuration_options: "Configuration Options"
   configurations: Configurations
   confirm: Confirm

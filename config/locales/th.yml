@@ -233,6 +233,13 @@ th:
   complete: complete
   complete_list: รายการจัดการทั้งหมด
   configuration: จัดการระบบ
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: ข้อมูลตัวเลือก
   configurations: รายการจัดการ
   confirm: ยืนยันรหัสผ่าน
