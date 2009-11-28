@@ -489,3 +489,9 @@ div.product-preview-products {
   float:left;
   width:170px;
 }
+
+td.spacer{
+  font-weight:bold;
+  background-color:#e5e5e5;
+  padding-left: 50px;
+}

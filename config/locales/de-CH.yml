@@ -23,7 +23,7 @@ de-CH:
         address1: Adresse
         address2: "Adresse (weiter)"
         city: Stadt
-        firstname: Vorname
+        firstname: Vornamef
         lastname: Nachname
         phone: Telefonnummer
         zipcode: PLZ
@@ -233,6 +233,13 @@ de-CH:
   complete: complete
   complete_list: "Gesamtliste"
   configuration: Konfiguration
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Konfigurations-Optionen"
   configurations: Konfigurationen
   confirm: Bestätigen

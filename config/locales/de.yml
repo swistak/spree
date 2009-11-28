@@ -233,6 +233,13 @@ de:
   complete: complete
   complete_list: "Complete List"
   configuration: Konfiguration
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Konfigurations-Optionen"
   configurations: Konfigurationen
   confirm: Bestätigen

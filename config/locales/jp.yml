@@ -233,6 +233,13 @@ jp:
   complete: complete
   complete_list: "Complete List"
   configuration: 設定
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: 設定オプション
   configurations: 設定
   confirm: 確認

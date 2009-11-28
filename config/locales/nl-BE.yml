@@ -150,7 +150,7 @@ nl-BE:
         other: Taxons
       taxonomy: 
         one: Taxonomie
-        other: Taxonomieën
+        other: Taxonomieï¿½n
       user: 
         one: Gebruiker
         other: Gebruikers
@@ -217,7 +217,7 @@ nl-BE:
   card_number: "Kaartnummer"
   card_type_is: Card type is
   cart: Winkelmandje
-  categories: Categorieën
+  categories: Categorieï¿½n
   category: Categorie
   change: Wijzig
   change_language: "Taalkeuze"
@@ -233,6 +233,13 @@ nl-BE:
   complete: complete
   complete_list: "Complete List"
   configuration: Configuratie
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Configuratie Opties"
   configurations: Configuraties
   confirm: Bevestig
@@ -352,11 +359,11 @@ nl-BE:
   last_name: "Achternaam"
   last_year: "Last Year"
   list: Lijst
-  listing_categories: "Lijst Categorieën"
+  listing_categories: "Lijst Categorieï¿½n"
   listing_option_types: "Lijst Optie Types"
   listing_orders: "Lijst Bestellingen"
   listing_reports: "Lijst Rapporten"
-  listing_tax_categories: "Lijst BTW categorieën"
+  listing_tax_categories: "Lijst BTW categorieï¿½n"
   listing_users: "Lijst Gebruikers"
   loading: Loading
   locale_changed: "Regionale Instellingen Gewijzigd"
@@ -705,8 +712,8 @@ nl-BE:
   subtract: Verreken
   system: Systeem
   tax: BTW
-  tax_categories: "BTW Categorieën"
-  tax_categories_setting_description: "Instellen BTW categorieën om aan te duiden welke producten onderhevig zijn aan BTW."
+  tax_categories: "BTW Categorieï¿½n"
+  tax_categories_setting_description: "Instellen BTW categorieï¿½n om aan te duiden welke producten onderhevig zijn aan BTW."
   tax_category: "BTW Categorie"
   tax_rates: "Tax Rates"
   tax_rates_description: Tax rates setup and configuration.
@@ -715,8 +722,8 @@ nl-BE:
   tax_total: "BTW Totaal"
   tax_type: "BTW Type"
   taxon: Taxon
-  taxonomies: Taxonomieën
-  taxonomies_setting_description: "Aanmaken en wijzigen taxonomieën"
+  taxonomies: Taxonomieï¿½n
+  taxonomies_setting_description: "Aanmaken en wijzigen taxonomieï¿½n"
   taxonomy_edit: "Edit taxonomy"
   taxonomy_tree_error: "The requested change has not been accepted and the tree has been returned to its previous state, please try again."
   taxonomy_tree_instruction: "* Right click a child in the tree to access the menu for adding, deleting or sorting a child."

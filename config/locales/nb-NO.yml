@@ -233,6 +233,13 @@ nb-NO:
   complete: complete
   complete_list: "Complete List"
   configuration: Konfigurasjon
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Konfigurasjonsvalg"
   configurations: Konfigurasjoner
   confirm: Bekreft

@@ -233,6 +233,13 @@ mx:
   complete: complete
   complete_list: "Lista Completa"
   configuration: "Configuración"
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Opciones de configuración"
   configurations: Configuraciones
   confirm: Confirmar

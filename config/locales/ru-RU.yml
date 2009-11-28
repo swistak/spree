@@ -233,6 +233,13 @@ ru-RU:
   complete: "Завершено"
   complete_list: "Список настроек"
   configuration: "Конфигурация"
+  configuration_controller:
+    general:
+    taxation:
+    shipping:
+    payment:
+    other:
+    extensions: 
   configuration_options: "Опции конфигурации"
   configurations: "Конфигурация"
   confirm: "Подтвердить"
