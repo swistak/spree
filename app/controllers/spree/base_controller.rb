@@ -1,4 +1,4 @@
-require 'spree/hook'
+require 'spree/theme_support/hook'
 
 class Spree::BaseController < ActionController::Base
   layout 'spree_application'
