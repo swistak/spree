@@ -1,4 +1,7 @@
 <h1><%= t("my_account") %></h1>
+
+<%= call_hook :account_top %>
+
 <table>
   <tr>
     <td><%= t("email") %>:</td>
@@ -9,9 +12,9 @@
 </table>
 <%= link_to t('edit'), edit_object_url %>
 
+<%= call_hook :account_above_my_orders %>
 
 <h1><%= t("my_orders") %></h1>
- 
  
 <table class="order-summary" width="545">
   <thead>
@@ -37,3 +40,5 @@
 </table>
  
 <br />
+
+<%= call_hook :account_below_my_orders %>

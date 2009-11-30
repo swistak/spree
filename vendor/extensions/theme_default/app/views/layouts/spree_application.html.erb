@@ -25,6 +25,7 @@ end
     <% if @content_for_sidebar %>
     <div id="sidebar">
       <%= yield :sidebar %>
+      <%= call_hook :sidebar_bottom %>
     </div>
     <% end %>
     

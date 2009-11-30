@@ -1,11 +1,13 @@
 <% form_for :order, :url => orders_url do |f| %>
 
   <% if product_price(@product) %>
+    <%= call_hook :product_above_price %>
     <p class="prices">
       <%= t("price") %>
       <br />
       <span class="price selling"><%= product_price(@product) %></span>
     </p>
+    <%= call_hook :product_below_price %>
   <% end %>
 
   <% if @product.has_variants? %>
@@ -44,7 +46,11 @@
   <% end %>
 <% end %>
 
+<<<<<<< HEAD:vendor/extensions/theme_default/app/views/products/_cart_form.html.erb
 
 <% content_for :head do %>
   <%= javascript_include_tag 'product' %>
 <% end %>
+=======
+<%= call_hook :product_below_cart_form %>
+>>>>>>> first pass add adding hooks to public views. document in HOOKS.markdown:vendor/extensions/theme_default/app/views/products/_cart_form.html.erb

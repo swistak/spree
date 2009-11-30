@@ -12,7 +12,9 @@
 
 <div id="product-description">
   <%= product_description(@product) rescue t("product_has_no_description") %>
+  <%= call_hook :product_below_description %>
   <%= render 'properties' %>
+  <%= call_hook :product_below_properties %>
 </div>
 
 <div id="cart-form">
