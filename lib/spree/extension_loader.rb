@@ -75,6 +75,10 @@ module Spree
       extensions.map { |extension| "#{extension.root}/app/views" }.select { |d| File.directory?(d) }
     end
     
+    def stylesheet_source_paths
+      extensions.map { |extension| "#{extension.root}/app/stylesheets" }.select { |d| File.directory?(d) }
+    end
+
     # Load the extensions
     def load_extensions
       @observer ||= DependenciesObserver.new(configuration).observe(ActiveSupport::Dependencies)
