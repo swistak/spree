@@ -12,14 +12,11 @@
        <%= link_to t("payments"),
                       admin_order_payments_url(@order) %>
     </li>
-    <% if @order_admin_tabs && @order_admin_tabs.size > 0 -%>
-                <% @order_admin_tabs.each do |extension| -%>
-    <li <%= ' class="active"' if current == extension[:name].titleize.pluralize %>>
-        <%= link_to t(extension[:name], :default => extension[:name].titleize.pluralize),
-                      eval(extension[:url] + " @order") %>
+    <li <%= ' class="active"' if current == "Shipments" %>>
+       <%= link_to t("shipments"),
+                      admin_order_shipments_url(@order) %>
     </li>
-    <% end -%>
-  <% end -%>
+    <%= call_hook :admin_order_tabs %>
   </ul>
 
 <% end %>

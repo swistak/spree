@@ -97,7 +97,6 @@ module Spree
     end
     
     def activate_extensions
-#      initializer.initialize_default_admin_tabs
       # Reset the view paths after 
       initializer.initialize_framework_views
       extensions.each &:activate

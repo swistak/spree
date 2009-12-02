@@ -1,7 +1,7 @@
 Public Views
 ============
 
-Main layout (layouts/spree_application.html.erb)
+Layout (layouts/spree_application.html.erb)
 ------------------------------------------------
 
 * sidebar_bottom (at the bottom of any page that has a sidebar)
@@ -69,4 +69,14 @@ Account (users/show.html.erb)
 
 Admin Views
 ===========
+
+Layout (layouts/admin.html.erb)
+-------------------------------
+
+The following hooks allow list items to be added to various admin menus
+
+* admin_tabs
+* admin_product_sub_tabs
+* admin_order_tabs (sidebar menu for individual order)
+* admin_product_tabs (sidebar menu for individual product)
 

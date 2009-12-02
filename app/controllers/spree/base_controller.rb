@@ -34,12 +34,6 @@ class Spree::BaseController < ActionController::Base
     render :text => 'Access Forbidden', :layout => true, :status => 401
   end
 
-  # Used for pages which need to render certain partials in the middle
-  # of a view. Ex. Extra user form fields
-  def initialize_extension_partials
-    @extension_partials = []
-  end
-
   # set_title can be used in views as well as controllers.
   # e.g. <% set_title 'This is a custom title for this view' %>
   def set_title(title)

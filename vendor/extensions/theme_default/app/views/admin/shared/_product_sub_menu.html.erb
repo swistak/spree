@@ -5,5 +5,6 @@
     <%= tab :properties %>
     <%= tab :prototypes %>
     <%= tab :product_groups, :match_path => '/product_groups', :css_class => 'last' %>
+    <%= call_hook :admin_product_sub_tabs %>
   </ul>
 <% end %>

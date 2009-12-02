@@ -30,9 +30,7 @@
         <%= tab :reports %>
         <%= tab :configurations, :general_settings, :mail_settings, :tax_categories, :zones, :states, :gateway_configurations, :inventory_settings, :taxonomies, :label => 'configuration' %>
         <%= tab :users %>
-        <% @extension_tabs.each do |etab| -%>
-          <%= tab *etab %>
-        <% end -%>
+        <%= call_hook :admin_tabs %>
       </ul>
       <br class="clear" />
     </div>

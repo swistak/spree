@@ -34,14 +34,7 @@
         <%= link_to t("taxons"), selected_admin_product_taxons_url(@product) %>
       </li>
     <% end %>
-    <% if @product_admin_tabs && @product_admin_tabs.size > 0
-      @product_admin_tabs.each do |extension| %>
-      <li<%= ' class="active"' if current == extension[:name].capitalize.pluralize %>>
-        <%= link_to extension[:name].capitalize.pluralize,  eval(extension[:url] + " @product") %>
-      </li>
-      <% end %>
-    <% end %>
-
+    <%= call_hook :admin_product_tabs %>
   </ul>
   <br clear="clear" />
 
