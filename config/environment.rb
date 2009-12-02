@@ -31,7 +31,7 @@ Spree::Initializer.run do |config|
   config.gem 'authlogic-oid', :lib => "authlogic_openid"
   config.gem "activemerchant", :lib => "active_merchant", :version => '>=1.4.2'
   config.gem 'activerecord-tableless', :lib => 'tableless', :version => '>=0.1.0'
-  config.gem 'less', :version => '>=1.2.17'
+  config.gem 'railsdog-less', :version => '>=1.2.17', :lib => 'less', :source => "http://gemcutter.org"
   config.gem 'compass', :version => '0.8.17', :source => "http://gemcutter.org"
   config.gem 'calendar_date_select', :version => '1.15'
   config.gem 'rsl-stringex', :lib => 'stringex', :source => "http://gems.github.com"
@@ -47,6 +47,8 @@ Spree::Initializer.run do |config|
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
   config.plugins = [ :all, :resource_controller, :extension_patches ]
 
+  config.extensions = [:all, :mytheme]
+  
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
