@@ -71,4 +71,5 @@ class Less::More
 
 end
 
-Less::More.source_paths = Spree::ExtensionLoader.stylesheet_source_paths
+Less::More.source_paths = Spree::ExtensionLoader.stylesheet_source_paths.reverse
+LESS_SOURCE_PATHS = Spree::ExtensionLoader.stylesheet_source_paths.reverse
