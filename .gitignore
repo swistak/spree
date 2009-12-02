@@ -57,3 +57,13 @@ coverage/*
 var
 TAGS
 nbproject
+
+public/javascripts/checkout.js
+public/javascripts/dashboard.js
+public/javascripts/jqPlot/
+public/javascripts/jquery-core.js
+public/javascripts/jquery.validate.min.js
+public/javascripts/open_id.js
+public/javascripts/spree.js
+public/stylesheets/admin/admin.css
+public/stylesheets/admin/dashboard.css
