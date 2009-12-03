@@ -35,8 +35,5 @@ class ThemeDefaultExtension < Spree::Extension
     #   helper YourHelper
     # end
     
-    # TODO: This could happen automatically
-    Spree::ThemeSupport::Hook.add_listener(ThemeDefaultHooks)
-    
   end
 end
