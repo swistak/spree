@@ -31,7 +31,7 @@ class AppConfiguration < Configuration
   preference :products_per_page, :integer, :default => 10
   preference :default_tax_category, :string, :default => nil # Use the name (exact case) of the tax category if you wish to specify
   preference :logo, :string, :default => '/images/admin/bg/spree_50.png'
-  preference :stylesheets, :string, :default => 'compiled/screen' # Comma separate multiple stylesheets, e.g. 'compiled/screen,compiled/site'
+  preference :stylesheets, :string, :default => 'screen' # Comma separate multiple stylesheets, e.g. 'screen,mystyle'
   preference :admin_interface_logo, :string, :default => "spree/spree.jpg"
   preference :allow_ssl_in_production, :boolean, :default => true
   preference :allow_ssl_in_development_and_test, :boolean, :default => false
