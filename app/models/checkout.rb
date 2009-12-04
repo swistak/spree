@@ -57,7 +57,9 @@ class Checkout < ActiveRecord::Base
       transition :to => 'complete', :from => 'payment'
     end
   end
-  
+  def self.state_names
+    state_machine.states.by_priority.map(&:name)
+  end
 
   private
   def clone_billing_address

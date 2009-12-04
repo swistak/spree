@@ -227,6 +227,12 @@ en-US:
   charge_total: Charge Total
   charged: Charged
   checkout: Checkout
+  checkout_steps:
+    # keys correspond to Checkout state names
+    address: Address
+    delivery: Delivery
+    payment: Payment
+    complete: Complete
   city: City
   clone: Clone
   code: Code
