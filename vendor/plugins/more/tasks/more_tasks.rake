@@ -1,5 +1,5 @@
-require 'less'
-require File.join(File.dirname(__FILE__), '..', 'lib', 'more')
+require 'less' if defined? Less::Command
+require File.join(File.dirname(__FILE__), '..', 'lib', 'more') if defined? Less::Command
 
 namespace :more do
   desc "Generate CSS files from LESS files"
