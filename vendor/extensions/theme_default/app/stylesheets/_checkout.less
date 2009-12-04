@@ -1,14 +1,24 @@
 @import "_colors";
 @import "_mixins";
+@import "_checkout_progress";
 
 .checkout_region (@image: url(../images/steps/1.png), @image_small: url(../images/steps/1_small.png)){
   background: transparent @image top right no-repeat;
 }
 
 
+
+
 div#checkout {
   width: 720px;
   float: left;
+  position: relative;
+  
+  .progress-steps {
+    position: absolute;
+    top: 0.5em;
+    right: 0;
+  }
 
   select.error, input.error {
     padding: 0px;
