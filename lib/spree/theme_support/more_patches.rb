@@ -34,10 +34,7 @@ class Less::More
     # Override to iterate through all source paths
     def parse
       source_paths.reverse.each do |source_path|
-        puts "Parsing files in #{source_path}"
         Less::More.all_less_files_in_path(source_path).each do |path|
-          puts "  file #{path}"
-
           # Get path
           relative_path = path.relative_path_from(source_path)
           path_as_array = relative_path.to_s.split(File::SEPARATOR)

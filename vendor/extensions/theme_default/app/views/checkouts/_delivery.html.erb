@@ -1,15 +1,19 @@
-<div id='shipping_method'>
-  <h2><%= t("shipping_method") %></h2>
+<fieldset id='shipping_method'>
+  <legend><%= t("shipping_method") %></legend>
   <% checkout_form.fields_for :shipment do |shipment| %>     
     <div class="inner">
       <div id="methods">
+        
+        <p class="field radios">
         <% @available_methods.each do |shipping_method| %>
-          <p>
+          <label>
             <%= shipment.radio_button("shipping_method_id", shipping_method[:id]) %>
             <%= shipping_method[:name] %>
             <%= shipping_method[:rate] %>
-          </p>
+          </label><br />
         <% end %>
+        </p>
+        
       </div>
       <% if Spree::Config[:shipping_instructions] %>
         <p id="minstrs">
@@ -18,8 +22,9 @@
         </p>
       <% end %>
     </div>
-    <div class="form-buttons">
-      <input type="submit" class="continue button primary" value="<%=t("save_and_continue") %>"/>
-    </div>
   <% end %>
+</fieldset>
+
+<div class="form-buttons">
+  <input type="submit" class="continue button primary" value="<%=t("save_and_continue") %>"/>
 </div>
