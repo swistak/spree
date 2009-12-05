@@ -12,8 +12,6 @@ module CheckoutsHelper
       text = t("checkout_steps.#{state}")
 
       css_classes = []
-      
-      
       current_index = Checkout.state_names.index(@checkout.state)
       state_index = Checkout.state_names.index(state)
 
@@ -21,19 +19,11 @@ module CheckoutsHelper
         css_classes <<'completed'
         text = link_to text, edit_order_checkout_url(@order, :step => state)
       end
-      if state_index == current_index + 1
-        css_classes << 'next'
-      end
-      if state == @checkout.state
-        css_classes << 'current'
-      end
-
-      if state_index == 0
-        css_classes << 'first'
-      end
-      if state_index == Checkout.state_names.length - 1
-        css_classes << 'last'
-      end
+      
+      css_classes << 'next' if state_index == current_index + 1
+      css_classes << 'current' if state == @checkout.state
+      css_classes << 'first' if state_index == 0
+      css_classes << 'last' if state_index == Checkout.state_names.length - 1
 
       # It'd be nice to have separate classes but combining them with a dash helps out for IE6 which only sees the last class
       content_tag('li', content_tag('span', text), :class => css_classes.join('-'))

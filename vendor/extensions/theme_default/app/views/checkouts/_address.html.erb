@@ -1,30 +1,31 @@
-<div id='billing'>
+<fieldset id='billing'>
   <% checkout_form.fields_for :bill_address do |bill_form| %>
-    <h2><%= t("billing_address")%></h2>
+    <legend><%= t("billing_address")%></legend>
     <div class="inner">
-      <p id="bfname">
-        <label for="<%= t("first_name") %>"><%= t("first_name") %></label>
+      <p class="field">&nbsp;</p>
+      <p id="bfname" class="field">
+        <label for="<%= t("first_name") %>"><%= t("first_name") %></label><br />
         <%= bill_form.text_field :firstname, :class => 'required' -%><span class="req">*</span>
       </p>
-      <p id="blname">
-        <label for="<%= t("last_name") %>"><%= t("last_name") %></label>
+      <p id="blname" class="field">
+        <label for="<%= t("last_name") %>"><%= t("last_name") %></label><br />
         <%= bill_form.text_field :lastname, :class => 'required' -%><span class="req">*</span>
       </p>
-      <p id="baddress">
-        <label for="<%= t("street_address") %>"><%= t("street_address") %></label>
+      <p id="baddress" class="field">
+        <label for="<%= t("street_address") %>"><%= t("street_address") %></label><br />
         <%= bill_form.text_field :address1, :class => 'required' -%><span class="req">*</span>
       </p>
-      <p id="baddress2">
-        <label for="<%= t("street_address_2") %>"><%= t("street_address_2") %></label>
+      <p id="baddress2" class="field">
+        <label for="<%= t("street_address_2") %>"><%= t("street_address_2") %></label><br />
         <%= bill_form.text_field :address2 %>
       </p>
-      <p id="bcity">
-        <label for="<%= t("city") %>"><%= t("city") %></label>
+      <p id="bcity" class="field">
+        <label for="<%= t("city") %>"><%= t("city") %></label><br />
         <%= bill_form.text_field :city, :class => 'required' -%><span class="req">*</span>
       </p>                        
       <% if Spree::Config[:address_requires_state] %>
-        <p>
-          <label for="<%= t("state") %>"><%= t("state") %></label>
+        <p class="field">
+          <label for="<%= t("state") %>"><%= t("state") %></label><br />
           <span id="bstate">
             <% if @checkout.bill_address.country.states.empty? %>
               <%= bill_form.text_field :state_name, :class => 'required' -%>
@@ -41,60 +42,61 @@
           <span class="req">*</span>
         </p>
       <% end %>
-      <p id="bzip">
-        <label for="<%= t("zip") %>"><%= t("zip") %></label>
+      <p id="bzip" class="field">
+        <label for="<%= t("zip") %>"><%= t("zip") %></label><br />
         <%= bill_form.text_field :zipcode, :class => 'required' -%><span class="req">*</span>
       </p>    
-      <p id="bcountry">
-        <label for="<%= t("country") %>"><%= t("country") %></label>
+      <p id="bcountry" class="field">
+        <label for="<%= t("country") %>"><%= t("country") %></label><br />
         <span id="bcountry"><%= bill_form.collection_select :country_id, @countries, :id, :name, {}, {:style => 'width:150px;', :class => 'required'} %></span>
       </p>
-      <p id="bphone">
-        <label for="<%= t("phone") %>"><%= t("phone") %></label>
+      <p id="bphone" class="field">
+        <label for="<%= t("phone") %>"><%= t("phone") %></label><br />
         <%= bill_form.text_field :phone, :class => 'required' -%><span class="req">*</span>
           </p>
           <% if Spree::Config[:alternative_billing_phone] %>
             <p id="baltphone">
-              <label for=""><%= t("alternative_phone") %></label>
+              <label for=""><%= t("alternative_phone") %></label><br />
               <%= bill_form.text_field :alternative_phone -%>
             </p>
           <% end %>
       </p>
     </div>
   <% end %>
-</div>
-<div id='shipping'>
+</fieldset>
+<fieldset id='shipping'>
   <% checkout_form.fields_for :shipment do |shipment| %>     
     <% shipment.fields_for :address do |address| %>
-      <h2><%= t("shipping_address")%></h2>
-    	<p>
-    	  <label for="checkout_same_address" id="use_billing"><%= t("use_billing_address") %></label>
-    	  <%= check_box_tag 'checkout[use_billing]', '1', @checkout.use_billing %>
+      <legend><%= t("shipping_address")%></legend>
+    	<p class="field">
+    	  <label for="checkout_same_address" id="use_billing">
+      	  <%= check_box_tag 'checkout[use_billing]', '1', @checkout.use_billing %> <%= t("use_billing_address") %>
+    	  </label>
     	</p> 
       <div class="inner">
-      	<p id="sfname">
-      		<label for="<%= t("first_name") %>"><%= t("first_name") %></label>
+      	<p id="sfname" class="field">
+      		<label for="<%= t("first_name") %>"><%= t("first_name") %></label><br />
       		<%= address.text_field :firstname, :class => 'required' -%><span class="req">*</span>
       	</p>
-      	<p id="slname">
-      		<label for="<%= t("last_name") %>"><%= t("last_name") %></label>
+      	<p id="slname" class="field">
+      		<label for="<%= t("last_name") %>"><%= t("last_name") %></label><br />
       		<%= address.text_field :lastname, :class => 'required' -%><span class="req">*</span>
       	</p>
-      	<p id="saddress">
-      		<label for="<%= t("street_address") %>"><%= t("street_address") %></label>
+      	<p id="saddress" class="field">
+      		<label for="<%= t("street_address") %>"><%= t("street_address") %></label><br />
       		<%= address.text_field :address1, :class => 'required' -%><span class="req">*</span>
       	</p>
-      	<p id="saddress2">
-      		<label for="<%= t("street_address_2") %>"><%= t("street_address_2") %></label>
+      	<p id="saddress2" class="field">
+      		<label for="<%= t("street_address_2") %>"><%= t("street_address_2") %></label><br />
       		<%= address.text_field :address2 %>
       	</p>
-      	<p id="scity">
-      		<label for="<%= t("city") %>"><%= t("city") %></label>
+      	<p id="scity" class="field">
+      		<label for="<%= t("city") %>"><%= t("city") %></label><br />
       		<%= address.text_field :city, :class => 'required' -%><span class="req">*</span>
       	</p>    
           <% if Spree::Config[:address_requires_state] %>
-            <p>
-              <label for="<%= t("state") %>"><%= t("state") %></label>
+            <p class="field">
+              <label for="<%= t("state") %>"><%= t("state") %></label><br />
               <span id="sstate">
                 <% if @checkout.shipment.address.state.present? %>
       		<%= address.collection_select(:state_id, 
@@ -110,28 +112,30 @@
               <span class="req">*</span>
             </p>
           <% end %>
-      	<p id="szip">
-      		<label for="<%=t ("zip") %>"><%= t("zip") %></label>
+      	<p id="szip" class="field">
+      		<label for="<%=t ("zip") %>"><%= t("zip") %></label><br />
       		<%= address.text_field :zipcode, :class => 'required' -%><span class="req">*</span>
       	</p>
-      	<p id="scountry">
-      		<label for="<%= t("country") %>"><%= t("country") %></label>
+      	<p id="scountry" class="field">
+      		<label for="<%= t("country") %>"><%= t("country") %></label><br />
       		<span id="scountry"><%= address.collection_select :country_id, @shipping_countries, :id, :name, {}, {:style => 'width:150px;', :class => 'required'} %></span>
       	</p>
-      	<p id="sphone">
-      		<label for="<%= t("phone") %>"><%= t("phone") %></label>
+      	<p id="sphone" class="field">
+      		<label for="<%= t("phone") %>"><%= t("phone") %></label><br />
       		<%= address.text_field :phone, :class => 'required' -%><span class="req">*</span>
       	</p>
       	<% if Spree::Config[:alternative_shipping_phone] %>
-          <p id="saltphone">
-            <label for=""><%= t("alternative_phone") %></label>
+          <p id="saltphone" class="field">
+            <label for=""><%= t("alternative_phone") %></label><br />
             <%= address.text_field :alternative_phone -%>
           </p>
         <% end %>
       </div>
-      <div class="form-buttons">
-        <input type="submit" class="continue button primary" value="<%=t("save_and_continue") %>"/>
-      </div>
     <% end %>
   <% end %>
+</fieldset>
+
+<hr class="space" />
+<div class="form-buttons">
+  <input type="submit" class="continue button primary" value="<%=t("save_and_continue") %>"/>
 </div>
