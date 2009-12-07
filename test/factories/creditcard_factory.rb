@@ -3,7 +3,6 @@ Factory.define(:creditcard) do |f|
   f.month 12
   f.year 2013
   f.number "4111111111111111"
-  f.association :address
   f.association :checkout
 end
 
