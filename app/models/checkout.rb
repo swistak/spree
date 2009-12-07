@@ -23,13 +23,13 @@ class Checkout < ActiveRecord::Base
   
   validates_presence_of :order_id
 
-  validation_group :address, :fields=>[:bill_address_firstname, :bill_address_lastname, :bill_address_phone, 
-                                       :bill_address_zipcode, :bill_address_state, :bill_address_lastname, 
-                                       :bill_address_address1, :bill_address_city, :bill_address_statename, 
-                                       :bill_address_zipcode, :shipment_address_firstname, :shipment_address_lastname, :shipment_address_phone, 
-                                       :shipment_address_zipcode, :shipment_address_state, :shipment_address_lastname, 
-                                       :shipment_address_address1, :shipment_address_city, :shipment_address_statename, 
-                                       :shipment_address_zipcode]  
+  validation_group :address, :fields=>["bill_address.firstname", "bill_address.lastname", "bill_address.phone", 
+                                       "bill_address.zipcode", "bill_address.state", "bill_address.lastname", 
+                                       "bill_address.address1", "bill_address.city", "bill_address.statename", 
+                                       "bill_address.zipcode", "shipment.address.firstname", "shipment.address.lastname", "shipment.address.phone", 
+                                       "shipment.address.zipcode", "shipment.address.state", "shipment.address.lastname", 
+                                       "shipment.address.address1", "shipment.address.city", "shipment.address.statename", 
+                                       "shipment.address.zipcode"]  
   validation_group :delivery, :fields => []
 
   def completed_at
@@ -42,7 +42,7 @@ class Checkout < ActiveRecord::Base
     result = ar_valid?
     return result unless validation_group_enabled?
     
-    relevant_errors = errors.select { |attr, msg| @current_validation_fields.include?(attr.to_sym) }
+    relevant_errors = errors.select { |attr, msg| @current_validation_fields.include?(attr) }
     errors.clear
     relevant_errors.each { |attr, msg| errors.add(attr, msg) }
     relevant_errors.empty? 

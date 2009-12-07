@@ -27,6 +27,24 @@ en-US:
         lastname: "Last Name"
         phone: Phone
         zipcode: "Zip Code"
+      checkout:
+        bill_address: 
+          firstname: "Billing address first name"
+          lastname: "Billing address last name"
+          address1: "Billing address street"
+          city: "Billing address city"
+          state: "Billing address state"
+          zipcode: "Billing address zipcode"
+          phone: "Billing address phone"   
+        shipment:
+          address:
+            firstname: "Shipping address first name"
+            lastname: "Shipping address last name"
+            address1: "Shipping address street"
+            city: "Shipping address city"
+            state: "Shipping address state"
+            zipcode: "Shipping address zipcode"
+            phone: "Shipping address phone"   
       country:
         iso: ISO
         iso3: ISO3
