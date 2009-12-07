@@ -1,12 +1,5 @@
 module CheckoutsHelper
 
-  # TODO: do we need this method any more?
-  def checkout_steps                                                      
-    checkout_steps = %w{registration billing shipping shipping_method payment confirmation}
-    checkout_steps.delete "registration" if current_user
-    checkout_steps
-  end
-  
   def checkout_progress
     steps = Checkout.state_names.map do |state|
       text = t("checkout_steps.#{state}")
