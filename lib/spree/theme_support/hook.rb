@@ -74,11 +74,18 @@ module Spree
         #     render_on :view_issues_show_details_bottom, :partial => "show_more_data" 
         #   end
         #
-        def self.render_on(hook, options={})
-          define_method hook do |context|
-            context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+        def self.render_on(hook, options={}, &blk)
+          if blk
+            define_method hook do |template|
+              template.instance_eval(&blk)
+            end
+          else
+            define_method hook do |template|
+              template.render(options)
+            end
           end
         end
+
       end
     end
   end
