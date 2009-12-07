@@ -24,7 +24,9 @@ class CheckoutsController < Spree::BaseController
     success.wants.html do
       if @checkout.completed_at 
         complete_order
-        redirect_to order_url(@order, {:checkout_complete => true}) and next
+        order_params = {:checkout_complete => true}
+        session[:order_id] = nil
+        redirect_to order_url(@order, {:checkout_complete => true, :order_token => @order.token}) and next
       else
         render 'edit'
       end
