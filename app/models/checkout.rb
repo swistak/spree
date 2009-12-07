@@ -1,8 +1,6 @@
 class Checkout < ActiveRecord::Base  
   extend ValidationGroup::ActiveRecord::ActsMethods
   #ActiveRecord::Errors.send :include, ValidationGroup::ActiveRecord::Errors
-  #before_save :authorize_creditcard, :unless => "Spree::Config[:auto_capture]"
-  #before_save :capture_creditcard, :if => "Spree::Config[:auto_capture]"
   after_save :process_coupon_code
   before_validation :clone_billing_address, :if => "@use_billing"
   
@@ -50,7 +48,8 @@ class Checkout < ActiveRecord::Base
   
   # checkout state machine (see http://github.com/pluginaweek/state_machine/tree/master for details)
   state_machine :initial => 'address' do
-    after_transition :to => 'complete', :do => :complete_order    
+    after_transition :to => 'complete', :do => :complete_order
+    before_transition :to => 'complete', :do => :process_payment    
     event :next do
       transition :to => 'delivery', :from  => 'address'
       transition :to => 'payment', :from => 'delivery'
@@ -71,26 +70,15 @@ class Checkout < ActiveRecord::Base
     order.complete!
   end
   
-  def authorize_creditcard
-    return unless process_creditcard?
-    cc = Creditcard.new(creditcard.merge(:address => self.bill_address, :checkout => self))
-    return false unless cc.valid? 
-    return false unless cc.authorize(order.total)
-    return false unless order.complete
-    true
-  end
-
-  def capture_creditcard
-    return unless process_creditcard? 
-    cc = Creditcard.new(creditcard.merge(:address => self.bill_address, :checkout => self))
-    return false unless cc.valid?
-    return false unless cc.purchase(order.total)
-    return false unless order.complete
-    order.pay
-  end
-
-  def process_creditcard?
-    order and creditcard and confirmed and not creditcard[:number].blank?
+  def process_payment
+    begin
+      if Spree::Config[:auto_capture]
+        creditcard.capture(order.total)
+        order.pay!
+      else
+        creditcard.authorize(order.total)
+      end
+    end
   end
 
   def process_coupon_code

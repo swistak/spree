@@ -18,19 +18,28 @@ class CheckoutsController < Spree::BaseController
     
   update.before :update_before
   update.after :update_after
-  
-  update do
-    flash nil
-    success.wants.html do
-      if @checkout.completed_at 
-        complete_order
-        order_params = {:checkout_complete => true}
-        session[:order_id] = nil
-        redirect_to order_url(@order, {:checkout_complete => true, :order_token => @order.token}) and next
+
+  # customized verison of the standard r_c update method (since we need to handle gateway errors, etc)
+  def update  
+    load_object
+    before :update
+
+    begin
+      if object.update_attributes object_params
+        after :update
+        if @checkout.completed_at 
+          return complete_checkout
+        end    
       else
-        render 'edit'
+        after :update_fails
+        set_flash :update_fails
       end
+    rescue Spree::GatewayError => ge
+      logger.debug("#{ge}:\n#{ge.backtrace.join("\n")}")
+      flash.now[:error] = t("unable_to_authorize_credit_card") + ": #{ge.message}"
     end
+
+    render 'edit'
   end
     
   private
@@ -52,6 +61,13 @@ class CheckoutsController < Spree::BaseController
   # Calls update hooks registered for the current step  
   def update_hooks
     update_hook @checkout.state.to_sym 
+  end
+  
+  def complete_checkout
+    complete_order
+    order_params = {:checkout_complete => true}
+    session[:order_id] = nil
+    redirect_to order_url(@order, {:checkout_complete => true, :order_token => @order.token})
   end
     
   def object
