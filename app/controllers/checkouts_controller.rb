@@ -14,24 +14,7 @@ class CheckoutsController < Spree::BaseController
   show.wants.html { redirect_to edit_object_url }
   
   edit.before :edit_hooks  
-  delivery.edit_hook :load_available_methods
-  
-  # alias original r_c method so we can handle any (gateway) exceptions that might be thrown
-  # alias :rc_update :update
-  # def update
-  #   begin
-  #     rc_update
-  #   rescue Spree::GatewayError => ge
-  #     logger.debug("#{ge}:\n#{ge.backtrace.join("\n")}")
-  #     flash[:error] = t("unable_to_authorize_credit_card") + ": #{ge.message}"
-  #     redirect_to edit_object_url and return
-  #   rescue Exception => oe
-  #     logger.debug("#{oe}:\n#{oe.backtrace.join("\n")}")
-  #     flash[:error] = t("unable_to_authorize_credit_card") + ": #{oe.message}"
-  #     logger.unknown "#{flash[:error]}  #{oe.backtrace.join("\n")}"
-  #     redirect_to edit_object_url and return
-  #   end
-  # end    
+  delivery.edit_hook :load_available_methods 
     
   update.before :update_before
   update.after :update_after
@@ -46,44 +29,6 @@ class CheckoutsController < Spree::BaseController
         render 'edit'
       end
     end
-    
-    # success.wants.html do
-    #   if @order.reload.checkout_complete 
-    #     if current_user
-    #       current_user.update_attribute(:bill_address, @order.bill_address)
-    #       current_user.update_attribute(:ship_address, @order.ship_address)
-    #     end
-    #     flash[:notice] = t('order_processed_successfully')
-    #     order_params = {:checkout_complete => true}
-    #     order_params[:order_token] = @order.token unless @order.user
-    #     session[:order_id] = nil
-    #     redirect_to order_url(@order, order_params) and next
-    #   else
-    #     # this means a failed filter which should have thrown an exception
-    #     flash[:notice] = "Unexpected error condition -- please contact site support"
-    #     redirect_to edit_object_url and next
-    #   end
-    # end
-
-    # success.wants.js do
-    #   @order.reload
-    #   render :json => { :order_total => number_to_currency(@order.total),
-    #                     :charge_total => number_to_currency(@order.charge_total),
-    #                     :credit_total => number_to_currency(@order.credit_total),
-    #                     :charges => charge_hash,
-    #                     :credits => credit_hash,
-    #                     :available_methods => rate_hash}.to_json,
-    #          :layout => false
-    # end
-
-    # failure.wants.html do
-    #   flash.now[:notice] = "Unexpected failure in card authorization -- please contact site support"
-    #   render 'edit'
-    #   #redirect_to edit_object_url and next
-    # end
-    # failure.wants.js do
-    #   render :json => "Unexpected failure in card authorization -- please contact site support"
-    # end
   end
     
   private
