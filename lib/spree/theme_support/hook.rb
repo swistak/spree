@@ -43,10 +43,11 @@ module Spree
         # Calls a hook.
         # Returns the listeners response.
         def call_hook(hook, context={})
+          template = context[:controller].instance_variable_get('@template')
           returning [] do |response|
             hls = hook_listeners(hook)
             if hls.any?
-              hls.each {|listener| response << listener.send(hook, context)}
+              hls.each {|listener| response << listener.send(hook, template)}
             end
           end
         end
@@ -60,20 +61,7 @@ module Spree
       # Listener class used for views hooks.
       # Listeners that inherit this class will include various helpers by default.
       class ViewListener < Listener
-        include ERB::Util
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::FormHelper
-        include ActionView::Helpers::FormTagHelper
-        include ActionView::Helpers::FormOptionsHelper
-        include ActionView::Helpers::JavaScriptHelper
-        include ActionView::Helpers::PrototypeHelper
-        include ActionView::Helpers::NumberHelper
-        include ActionView::Helpers::UrlHelper
-        include ActionView::Helpers::AssetTagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionController::UrlWriter
-        include ApplicationHelper
-
+        
         # Default to creating links using only the path.  Subclasses can
         # change this default as needed
         def self.default_url_options

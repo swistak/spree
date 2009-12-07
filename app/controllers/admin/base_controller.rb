@@ -1,5 +1,6 @@
 class Admin::BaseController < Spree::BaseController
   helper :search
+  helper 'admin/navigation'
   layout 'admin'
 
   before_filter :parse_date_params

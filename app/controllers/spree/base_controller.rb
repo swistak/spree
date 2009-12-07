@@ -3,7 +3,7 @@ class Spree::BaseController < ActionController::Base
   helper :application
   before_filter :instantiate_controller_and_action_names
   filter_parameter_logging :password, :password_confirmation, :number, :verification_value
-  helper_method :current_user_session, :current_user, :title, :set_title, :get_taxonomies
+  helper_method :current_user_session, :current_user, :title, :title=, :get_taxonomies
 
   # Pick a unique cookie name to distinguish our session data from others'
   session_options['session_key'] = '_spree_session_id'
@@ -34,9 +34,9 @@ class Spree::BaseController < ActionController::Base
     render :text => 'Access Forbidden', :layout => true, :status => 401
   end
 
-  # set_title can be used in views as well as controllers.
-  # e.g. <% set_title 'This is a custom title for this view' %>
-  def set_title(title)
+  # can be used in views as well as controllers.
+  # e.g. <% title = 'This is a custom title for this view' %>
+  def title=(title)
     @title = title
   end
 
