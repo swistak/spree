@@ -139,7 +139,6 @@ class CheckoutsController < Spree::BaseController
 
   def set_state
     object.state = params[:step] || Checkout.state_machine.initial_state(nil).name
-    object.save(false)
   end
   
   def next_step      
