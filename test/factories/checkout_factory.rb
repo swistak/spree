@@ -5,6 +5,7 @@ Factory.define(:checkout) do |record|
   # associations: 
   record.association(:order)
   record.association(:bill_address, :factory => :address)
+  record.association(:creditcard)
 end
 
 ###### ADD YOUR CODE BELOW THIS LINE #####

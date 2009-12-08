@@ -62,19 +62,19 @@ class Checkout < ActiveRecord::Base
 
   private
   def clone_billing_address
-    shipment.address = bill_address.clone #if shipment.address.firstname.nil?
+    shipment.address = bill_address.clone
     true
   end      
   
   def complete_order
     order.complete!
+    order.pay! if Spree::Config[:auto_capture]
   end
   
   def process_payment
     begin
       if Spree::Config[:auto_capture]
-        creditcard.capture(order.total)
-        order.pay!
+        creditcard.purchase(order.total)
       else
         creditcard.authorize(order.total)
       end
