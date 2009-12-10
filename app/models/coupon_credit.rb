@@ -11,7 +11,7 @@ class CouponCredit < Credit
 
   # Calculates credit for the coupon.
   #
-  # If coupon amount exceeds th order item_total, credit is adjusted.
+  # If coupon amount exceeds the order item_total, credit is adjusted.
   #
   # Always returns negative non positive.
   def calculate_coupon_credit

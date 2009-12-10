@@ -2,7 +2,7 @@ class Credit < Adjustment
   before_save :ensure_negative_amount
 
   private
-  # Ensures Charge has always negative amount.
+  # Ensures Charge always has negative amount.
   #
   # Amount shold be modified ONLY when it's going to be saved to the database
   # (read_attribute returns value)
@@ -16,4 +16,9 @@ class Credit < Adjustment
       self.amount *= -1
     end
   end
+
+  def self.subclasses
+    self == Credit ? [CouponCredit] : []
+  end
+
 end

@@ -4,7 +4,7 @@ class Charge < Adjustment
   private
   # Ensures Charge has always positive amount.
   #
-  # Amount shold be modified ONLY when it's going to be saved to the database
+  # Amount should be modified ONLY when it's going to be saved to the database
   # (read_attribute returns value)
   #
   # WARNING! It does not protect from Credits getting negative amounts while
@@ -16,4 +16,9 @@ class Charge < Adjustment
       self.amount *= -1
     end
   end
+
+  def self.subclasses
+    self == Charge ? [TaxCharge, ShippingCharge] : []
+  end
+
 end
