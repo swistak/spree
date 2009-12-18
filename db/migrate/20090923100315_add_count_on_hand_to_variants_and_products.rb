@@ -7,14 +7,14 @@ class AddCountOnHandToVariantsAndProducts < ActiveRecord::Migration
         UPDATE 
           variants 
         SET 
-          variants.count_on_hand = (
+          count_on_hand = (
             SELECT 
               COUNT(inventory_units.id) 
             FROM 
               inventory_units
             WHERE 
               inventory_units.variant_id = variants.id AND 
-              state = "on_hand"
+              state = E'on_hand'
           );
       }
 
@@ -25,7 +25,7 @@ class AddCountOnHandToVariantsAndProducts < ActiveRecord::Migration
         UPDATE
           products
         SET
-          products.count_on_hand = (
+          count_on_hand = (
             SELECT 
               SUM(variants.count_on_hand) 
             FROM 
