@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
   after_create :create_checkout_and_shippment, :create_tax_charge
 
   belongs_to :user
-  has_many :state_events
+  has_many :state_events, :as => :stateful
 
   has_many :line_items, :extend => Totaling, :dependent => :destroy
   has_many :inventory_units
@@ -33,6 +33,7 @@ class Order < ActiveRecord::Base
 
   accepts_nested_attributes_for :checkout
   accepts_nested_attributes_for :line_items
+  accepts_nested_attributes_for :shipments
 
   def ship_address; shipment.address; end
   delegate :shipping_method, :to =>:shipment
@@ -68,6 +69,7 @@ class Order < ActiveRecord::Base
     after_transition :to => 'canceled', :do => :cancel_order
     after_transition :to => 'returned', :do => :restock_inventory
     after_transition :to => 'resumed', :do => :restore_state
+    after_transition :to => 'shipped', :do => :make_shipments_shipped
 
     event :complete do
       transition :to => 'new', :from => 'in_progress'
@@ -100,6 +102,13 @@ class Order < ActiveRecord::Base
     state_events.pop if state_events.last.name == "resume"
     update_attribute("state", state_events.last.previous_state)
   end
+
+  def make_shipments_shipped
+    shipments.reject(&:shipped?).each do |shipment|
+      shipment.update_attributes(:state => 'shipped', :shipped_at => Time.now)
+    end
+  end
+
 
   def allow_cancel?
     self.state != 'canceled'
@@ -175,11 +184,12 @@ class Order < ActiveRecord::Base
 
   # collection of available shipping countries
   def shipping_countries
+    return [] unless ShippingMethod.count > 0
     ShippingMethod.all.collect { |method| method.zone.country_list }.flatten.uniq.sort_by {|item| item.send 'name'}
   end
 
   def shipping_methods
-    return [] unless ship_address
+    return [] unless ship_address and ShippingMethod.count > 0
     ShippingMethod.all.select { |method| method.zone.include?(ship_address) && method.available?(self) }
   end
 
@@ -286,6 +296,3 @@ class Order < ActiveRecord::Base
     self.checkout ||= Checkout.create(:order => self)
   end
 end
-
-# please don't remove it, it's needed to activite observer if user doesn't update environment.rb
-OrderObserver.instance

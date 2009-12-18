@@ -40,9 +40,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :states, :only => :index
   map.resources :users
   map.resources :products, :member => {:change_image => :post}
-  map.resources :orders, :member => {:address_info => :get}, :has_many => [:line_items, :creditcards, :creditcard_payments], :has_one => :checkout
+  map.resources :orders, :member => {:address_info => :get}, :has_many => [:line_items, :creditcards, :creditcard_payments]
   map.resources :orders, :member => {:fatal_shipping => :get} do |order|
     order.resources :shipments, :member => {:shipping_method => :get}
+    order.resource :checkout, :member => {:register => :any}
   end
   #map.resources :shipments, :member => {:shipping_method => :any}
 
@@ -84,7 +85,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :mail_settings
     admin.resource :inventory_settings
     admin.resources :google_analytics
-    admin.resources :orders, :has_many => [:adjustments, :shipments, :payments, :creditcards], :member => {:fire => :put, :resend => :post}
+    admin.resources :orders, :has_many => [:adjustments, :shipments, :payments, :creditcards, :line_items], :has_one => :checkout, :member => {:fire => :put, :resend => :post, :history => :get}
     admin.resources :orders do |order|
       order.resources :creditcard_payments, :member => {:capture => :get}
     end
