@@ -237,7 +237,7 @@ class Order < ActiveRecord::Base
     end
 
     self.adjustment_total = self.charge_total - self.credit_total
-
+    self.adjustment_total = -self.item_total if self.adjustment_total < -self.item_total
     self.total            = self.item_total   + self.adjustment_total
   end
 
