@@ -1,0 +1,57 @@
+<% content_for :head do %>
+  <% CalendarDateSelect.format[:javascript_include] = 'format_iso_date.js' %>
+  <%= calendar_date_select_includes %>
+  <%= stylesheet_link_tag 'reports' %>
+<% end %>
+<h1><%= t("listing_reports") %></h1>
+
+<div id="new_report" class="vertical">
+  <h3><%= t(:new_report) %></h3>
+  <% form_for @report, :url => {:action => :edit} do |f| %>
+    <%= render :partial => 'form', :locals => {:f => f} %>
+    <%= f.submit t(:new_report) %>
+  <% end %>
+</div>
+
+<div id="reports">
+  <h3><%= t(:available_reports) %></h3>
+
+  <fieldset>
+    <legend><%= t(:saved_reports) %></legend>
+    <ul><% @reports.each do |report| %>
+        <li>
+          <%= report.to_s %>
+          [
+          <%= link_to t(:edit), edit_admin_report_path(report) %> |
+          <%= link_to t(:destroy), {:action => 'destroy', :id => report.id}, :method => :post , :confirm => t(:are_you_sure) %>
+          ] &nbsp;
+          <%= t(:display) %>: <%= links_to_report(report) %>
+        </li>
+    <% end %></ul>
+  </fieldset>
+
+  <fieldset>
+    <legend><%= t(:monthly_reports) %></legend>
+    <table>
+      <thead>
+        <tr>
+          <th><%= t("Date") %></th>
+          <% @report_types.each do |report_type| %>
+            <th><%= t(report_type) %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @monthly_reports.each do |monthly_reports| %>
+          <tr>
+            <td><%= pair[0] %> - <%= pair[1] %></td>
+            <% reports = pair.last; reports.each do |report| %>
+              <td><%= links_to_report(report, :action => 'new') %><td>
+          <% end %></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </fieldset>
+</div>
+
+<br style="clear: both" />

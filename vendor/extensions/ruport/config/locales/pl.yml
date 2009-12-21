@@ -1,0 +1,35 @@
+---
+pl:
+  report:
+    summary: Podsumowanie
+    generated_at: utworzono
+    total: Łącznie kwota sprzedaży brutto
+  SalesReport: Raport Sprzedaży
+  DetailedSalesReport: Raport Sprzedaży
+  as: jako
+  format: Format
+  available_formats: Dostępne formaty
+  available_reports: Dostępne typy raportów
+  comment: Komentarz
+  start_date: Od
+  end_date: Do
+  report_title: Tytuł raportu
+  new_report: Stwórz nowy raport
+  edit_report: Zmień kryteria raportu
+  update_report: Wygeneruj raport ponownie
+  preview_report: Generuj raport
+  save_report: Zapisz raport
+  variant SKU: Kod produktu
+  order number: Numer zamówienia
+  quantity: Sztuk
+  adhoc: Jednorazowy
+  saved_reports: Zapisane raporty
+  monthly_reports: Raporty miesięczne
+  Date: Data
+  interest_percent: Prowizja%
+  interest: Prowizja netto
+  interest_brutto: Prowizja brutto
+  total_brutto: Łącznie kwota sprzedaży brutto
+  monthly: Miesięczny
+  variant:
+    display_name: Opis towaru
