@@ -4,9 +4,8 @@ class CreditcardPaymentTest < ActiveSupport::TestCase
   fixtures :gateways
 
   context "instance" do
-    setup do           
-      creditcard = Factory(:creditcard, :checkout => Factory(:checkout))
-      @payment = Factory(:creditcard_payment, :creditcard => creditcard)
+    setup do
+      @payment = Factory(:creditcard_payment)
       @auth_amount = @payment.authorization.amount
     end
     context "capture" do

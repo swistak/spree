@@ -56,8 +56,7 @@ def create_complete_order
   @checkout = @order.checkout
   @shipment = @order.shipment
   @order.shipment.shipping_method = @shipping_method
-  @order.shipment.address = Factory(:address)  
-  @order.completed_at = Time.now
+  @order.shipment.address = Factory(:address)
   @checkout.bill_address = Factory(:address)
 
   unless @zone.include?(@order.shipment.address)
@@ -69,10 +68,4 @@ def create_complete_order
   @shipment.save
   @order.save
   @order.reload
-end
-
-# useful method for functional tests that require an authenticated user
-def set_current_user
-  @user = Factory(:user)
-  @controller.stub!(:current_user, :return => @user)
 end

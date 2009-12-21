@@ -3,7 +3,8 @@ card_<%= i %>:
   cc_type: visa
   month: 12
   year: 2011
-  last_digits: 1111
+  display_number: XXXX-XXXX-XXXX-1111
   first_name: Sean
   last_name: Schofield
+  address: frank_bill_address_<%= i %>
 <% end %>

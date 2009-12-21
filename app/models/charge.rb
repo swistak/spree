@@ -16,4 +16,9 @@ class Charge < Adjustment
       self.amount *= -1
     end
   end
+
+  def self.subclasses
+    self == Charge ? [TaxCharge, ShippingCharge] : []
+  end
+
 end

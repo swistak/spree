@@ -70,7 +70,8 @@ class Adjustment < ActiveRecord::Base
 
   def secondary_type; type; end
 
-  class << self
-    public :subclasses
+  private
+  def self.subclasses
+    self == Adjustment ? (Credit.subclasses + Charge.subclasses) : []
   end
 end

@@ -3,6 +3,7 @@ class UsersController < Spree::BaseController
   
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :initialize_extension_partials
 
   ssl_required :new, :create, :edit, :update, :show
   
@@ -14,7 +15,7 @@ class UsersController < Spree::BaseController
 	  @user = User.new(params[:user])
 	  @user.save do |result|
 	    if result
-	      flash[:notice] = t(:user_created_successfully) unless session[:return_to]
+	      flash[:notice] = t(:user_created_successfully)
 	      @user.roles << Role.find_by_name("admin") unless admin_created?
 	      respond_to do |format|
 	        format.html { redirect_back_or_default products_url }
