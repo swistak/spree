@@ -1,0 +1,31 @@
+<fieldset>
+  <legend><%= t(:available_reports) %></legend>
+  <% @report_types.each do |name| %>
+    <%= f.radio_button(:report_type, name, {}) %>
+    <%= f.label :report_type, t(name) %>
+    <br />
+  <% end %>
+</fieldset>
+<fieldset>
+  <legend><%= t(:options) %></legend>
+  <%= f.label(:report_title, t(:report_title), :class => 'block') %>
+  <%= f.text_field(:report_title) %>
+  <br />
+  <%= f.label :start_at, t("start_date"), :class => 'block' %>
+  <%= f.calendar_date_select :start_at, :value => @report.start_at && @report.start_at.to_date.to_s %>
+  <br />
+  <%= f.label :end_at, t("end_date"), :class => 'block' %>
+  <%= f.calendar_date_select :end_at, :value => @report.end_at && @report.end_at.to_date.to_s %>
+  <br />
+  <%= f.label :comment, t(:comment), :class => 'block' %>
+  <%= f.text_field(:comment) %>
+  <br />
+</fieldset>
+<fieldset>
+  <legend><%= t(:available_formats) %></legend>
+  <% Report::AVAILABLE_FORMATS.each do |name| %>
+    <%= f.radio_button(:format, name, {}) %>
+    <%= f.label :format, name %>
+    <br />
+  <% end %>
+</fieldset>
