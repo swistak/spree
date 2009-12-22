@@ -94,13 +94,22 @@ module Admin::BaseHelper
       form.check_box(field, {:readonly => options[:readonly],
           :disabled => options[:disabled]})
     when :string
-      form.text_field(field, {
-          :size => 10,
-          :class => 'input_string',
-          :readonly => options[:readonly],
-          :disabled => options[:disabled]
-        }
-      )
+      if options.key? :values
+        form.select(field, options[:values], {
+            :size => 10,
+            :class => 'input_string',
+            :readonly => options[:readonly],
+            :disabled => options[:disabled]
+          })
+      else
+        form.text_field(field, {
+            :size => 10,
+            :class => 'input_string',
+            :readonly => options[:readonly],
+            :disabled => options[:disabled]
+          }
+        )
+      end
     when :password
       form.password_field(field, {
           :size => 10,
@@ -132,9 +141,10 @@ module Admin::BaseHelper
 
       definition = object.class.preference_definitions[key]
       type = definition.instance_eval{@type}.to_sym
+      values = definition.values
 
       form.label("preferred_#{key}", t(key)+": ") +
-        preference_field(form, "preferred_#{key}", :type => type)
+        preference_field(form, "preferred_#{key}", {:type => type, :values => values})
     }.join("<br />")
   end
 

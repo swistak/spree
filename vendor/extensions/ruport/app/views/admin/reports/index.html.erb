@@ -1,16 +1,13 @@
 <% content_for :head do %>
-  <% CalendarDateSelect.format[:javascript_include] = 'format_iso_date.js' %>
-  <%= calendar_date_select_includes %>
   <%= stylesheet_link_tag 'reports' %>
 <% end %>
 <h1><%= t("listing_reports") %></h1>
 
 <div id="new_report" class="vertical">
   <h3><%= t(:new_report) %></h3>
-  <% form_for @report, :url => {:action => :edit} do |f| %>
-    <%= render :partial => 'form', :locals => {:f => f} %>
-    <%= f.submit t(:new_report) %>
-  <% end %>
+  <div id="report_options">
+    <%= render :partial => 'form' %>
+  </div>
 </div>
 
 <div id="reports">
@@ -55,3 +52,16 @@
 </div>
 
 <br style="clear: both" />
+
+
+<% content_for :head do %>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function(){
+      $('fieldset#report_types select').change(function() {
+        $('div#report_options').html('<fieldset><strong>Loading...</strong></fieldset>').load("<%= options_admin_reports_url %>",{report_type: this.value } );
+      });
+
+    });
+  </script>
+<% end %>

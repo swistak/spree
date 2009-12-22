@@ -1,6 +1,4 @@
 <% content_for :head do %>
-  <% CalendarDateSelect.format[:javascript_include] = 'format_iso_date.js' %>
-  <%= calendar_date_select_includes %>
   <%= stylesheet_link_tag 'reports' %>
 <% end %>
 
@@ -8,8 +6,6 @@
   <h3><%= t(:edit_report) %></h3>
   <% form_for @report, :url => {:action => :edit} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
-    <%= f.submit t(:update_report), :name => 'update' %>
-    <%= f.submit t(:save_report), :name => 'save'  %>
   <% end %>
   <br style="clear: both" />
 </div>

@@ -10,8 +10,8 @@ class Admin::ReportsController < Admin::BaseController
     @reports = Report.find(:all)
 
     @monthly_reports = Report.get_monthly_reports
-    
-    @report = Report.new({
+
+    @report = Report.default.constantize.new({
         :report_type => Report.default,
         :format => 'html',
         :report_title => I18n.t(Report.default),
@@ -27,28 +27,35 @@ class Admin::ReportsController < Admin::BaseController
     @report = Report.new(report_params)
     render_report
   end
-  
+
   def show
     @report = Report.find(params[:id])
     render_report
   end
 
   def edit
-    if params["save"]
-      if (report_id = params[:report][:id] || params[:id])
-        @report = Report.find(report_id)
-        @report.update_attributes(params[:report])
-      else
-        @report = Report.new(params[:report])
-        @report.save
-        redirect_to(:action => :index) && return
+    @report_types.each do |report_type|
+      type = report_type.to_s.tableize.singularize.to_sym
+      if params.key? type
+        @report = params[type][:report_type].constantize.new(params[type])
       end
-    elsif params[:report]
-      @report = Report.new(params[:report])
-    else
-      @report = Report.find(params[:id])
     end
-    
+
+    if @report.nil?
+      if params["save"]
+        if (report_id = params[:report][:id] || params[:id])
+          @report = Report.find(report_id)
+          @report.update_attributes(params[:report])
+        else
+          @report = Report.new(params[:report])
+          @report.save
+          redirect_to(:action => :index) && return
+        end
+      else
+        @report = Report.find(params[:id])
+      end
+    end
+
     render_report
   end
 
@@ -56,7 +63,16 @@ class Admin::ReportsController < Admin::BaseController
     Report.find(params[:id]).destroy
     redirect_to :back
   end
-  
+
+  def options
+    @report = params[:report_type].constantize.new({
+        :report_type => params[:report_type],
+        :format => 'html',
+        :report_title => I18n.t(params[:report_type]),
+      })
+    render :partial => "form"
+  end
+
   protected
 
   def render_report

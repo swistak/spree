@@ -1,31 +1,41 @@
-<fieldset>
-  <legend><%= t(:available_reports) %></legend>
-  <% @report_types.each do |name| %>
-    <%= f.radio_button(:report_type, name, {}) %>
-    <%= f.label :report_type, t(name) %>
-    <br />
+<% form_for @report, :url => {:action => :edit} do |f| %>
+  <% if ["index", "options"].include? controller.action_name %>
+    <fieldset id="report_types">
+      <legend><%= t(:available_reports) %></legend>
+      <%= f.select :report_type, @report_types.map {|r| [t(r),r]} %>
+    </fieldset>
+  <% else %>
+    <%= f.hidden_field :report_type %>
   <% end %>
-</fieldset>
-<fieldset>
-  <legend><%= t(:options) %></legend>
-  <%= f.label(:report_title, t(:report_title), :class => 'block') %>
-  <%= f.text_field(:report_title) %>
-  <br />
-  <%= f.label :start_at, t("start_date"), :class => 'block' %>
-  <%= f.calendar_date_select :start_at, :value => @report.start_at && @report.start_at.to_date.to_s %>
-  <br />
-  <%= f.label :end_at, t("end_date"), :class => 'block' %>
-  <%= f.calendar_date_select :end_at, :value => @report.end_at && @report.end_at.to_date.to_s %>
-  <br />
-  <%= f.label :comment, t(:comment), :class => 'block' %>
-  <%= f.text_field(:comment) %>
-  <br />
-</fieldset>
-<fieldset>
-  <legend><%= t(:available_formats) %></legend>
-  <% Report::AVAILABLE_FORMATS.each do |name| %>
-    <%= f.radio_button(:format, name, {}) %>
-    <%= f.label :format, name %>
+  <fieldset>
+    <legend><%= t(:options) %></legend>
+    <%= f.label(:report_title, t(:report_title), :class => 'block') %>
+    <%= f.text_field(:report_title) %>
     <br />
+    <%= f.label :start_at, t("start_date"), :class => 'block' %>
+    <%= f.unobtrusive_date_picker :start_at, :value => @report.start_at && @report.start_at.to_date.to_s %>
+    <br />
+    <%= f.label :end_at, t("end_date"), :class => 'block' %>
+    <%= f.unobtrusive_date_picker :end_at, :value => @report.end_at && @report.end_at.to_date.to_s %>
+    <br />
+    <%= f.label :comment, t(:comment), :class => 'block' %>
+    <%= f.text_field(:comment) %>
+    <br />
+    <%= preference_fields(@report, f) %>
+  </fieldset>
+  <fieldset>
+    <legend><%= t(:available_formats) %></legend>
+    <% Report::AVAILABLE_FORMATS.each do |name| %>
+      <%= f.radio_button(:format, name, {}) %>
+      <%= f.label :format, name %>
+      <br />
+    <% end %>
+  </fieldset>
+
+  <% if ["index", "options"].include? controller.action_name %>
+    <%= f.submit t(:new_report) %>
+  <% else %>
+    <%= f.submit t(:update_report), :name => 'update' %>
+    <%= f.submit t(:save_report), :name => 'save'  %>
   <% end %>
-</fieldset>
+<% end %>
