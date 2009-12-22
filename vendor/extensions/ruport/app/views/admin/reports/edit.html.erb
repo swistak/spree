@@ -2,6 +2,18 @@
   <%= stylesheet_link_tag 'reports' %>
 <% end %>
 
+<div class='toolbar'>
+  <ul class='actions'>
+    <li>
+      <%= button_link_to_function t("edit_report"), "if($('div#new_report').is(':hidden')){
+                                                        $('div#new_report').slideDown();
+                                                      }else{
+                                                        $('div#new_report').slideUp();}", :icon => 'edit', :id => "edit_report" %>
+    </li>
+  </ul>
+  <br class='clear' />
+</div>
+
 <div id="new_report" class="horizontal">
   <h3><%= t(:edit_report) %></h3>
   <% form_for @report, :url => {:action => :edit} do |f| %>

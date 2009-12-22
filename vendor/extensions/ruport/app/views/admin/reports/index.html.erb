@@ -3,13 +3,6 @@
 <% end %>
 <h1><%= t("listing_reports") %></h1>
 
-<div id="new_report" class="vertical">
-  <h3><%= t(:new_report) %></h3>
-  <div id="report_options">
-    <%= render :partial => 'form' %>
-  </div>
-</div>
-
 <div id="reports">
   <h3><%= t(:available_reports) %></h3>
 
@@ -51,17 +44,9 @@
   </fieldset>
 </div>
 
-<br style="clear: both" />
-
-
-<% content_for :head do %>
-
-  <script type="text/javascript">
-    jQuery(document).ready(function(){
-      $('fieldset#report_types select').change(function() {
-        $('div#report_options').html('<fieldset><strong>Loading...</strong></fieldset>').load("<%= options_admin_reports_url %>",{report_type: this.value } );
-      });
-
-    });
-  </script>
+<% content_for :sidebar do %>
+  <h3><%= t(:new_report) %></h3>
+  <div id="report_options">
+    <%= render :partial => 'form' %>
+  </div>
 <% end %>

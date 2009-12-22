@@ -37,23 +37,25 @@ class Admin::ReportsController < Admin::BaseController
     @report_types.each do |report_type|
       type = report_type.to_s.tableize.singularize.to_sym
       if params.key? type
-        @report = params[type][:report_type].constantize.new(params[type])
+
+        if params["save"]
+          if (report_id = params[type][:id] || params[:id])
+            @report = Report.find(report_id)
+            @report.update_attributes(params[type])
+          else
+            @report = params[type][:report_type].constantize.new(params[type])
+            @report.save
+            redirect_to(:action => :index) && return
+          end
+        else
+          @report = params[type][:report_type].constantize.new(params[type])
+        end
+
       end
     end
 
     if @report.nil?
-      if params["save"]
-        if (report_id = params[:report][:id] || params[:id])
-          @report = Report.find(report_id)
-          @report.update_attributes(params[:report])
-        else
-          @report = Report.new(params[:report])
-          @report.save
-          redirect_to(:action => :index) && return
-        end
-      else
         @report = Report.find(params[:id])
-      end
     end
 
     render_report

@@ -28,14 +28,25 @@
     <% Report::AVAILABLE_FORMATS.each do |name| %>
       <%= f.radio_button(:format, name, {}) %>
       <%= f.label :format, name %>
-      <br />
+
     <% end %>
   </fieldset>
 
   <% if ["index", "options"].include? controller.action_name %>
     <%= f.submit t(:new_report) %>
   <% else %>
-    <%= f.submit t(:update_report), :name => 'update' %>
-    <%= f.submit t(:save_report), :name => 'save'  %>
+    <br style="clear: both" />
+    <div style="text-align: center;">
+      <%= f.submit t(:update_report), :name => 'update' %>
+      <%= f.submit t(:save_report), :name => 'save'  %>
+    </div>
   <% end %>
 <% end %>
+
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    $('fieldset#report_types select').change(function() {
+      $('div#report_options').html('<fieldset><strong>Loading...</strong></fieldset>').load("<%= options_admin_reports_url %>",{report_type: this.value } );
+    });
+  });
+</script>
