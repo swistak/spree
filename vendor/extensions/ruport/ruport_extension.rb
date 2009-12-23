@@ -47,6 +47,9 @@ class RuportExtension < Spree::Extension
     Checkout.acts_as_reportable({
         :only => ['completed_at']
     })
+    Adjustment.acts_as_reportable({
+        :only => ['total']
+    })
 
     Variant.class_eval do
       def options_text

@@ -7,6 +7,7 @@ en-US:
   SalesReport: Sales Report
   DetailedSalesReport: Detailed Sales Report
   ProductSalesReport: Product Sales Report
+  TotalSalesReport: Total Sales Report
   as: as
   format: Format
   available_formats: Available Formats
@@ -15,6 +16,7 @@ en-US:
   start_date: From
   end_date: To
   report_title: Report Title
+  no_data: No Data
   new_report: New Report
   edit_report: Edit Report
   update_report: Update Report
@@ -26,6 +28,7 @@ en-US:
   quantity: Quantity
   adhoc: Adhoc
   saved_reports: Saved Reports
+  ship_total: Shipping Total
   monthly_reports: Monthly Reports
   Date: Date
   interest_percent: % Interest

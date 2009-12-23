@@ -6,21 +6,31 @@
 <div id="reports">
   <h3><%= t(:available_reports) %></h3>
 
-  <fieldset>
-    <legend><%= t(:saved_reports) %></legend>
-    <ul><% @reports.each do |report| %>
-        <li>
-          <%= report.to_s %>
-          [
-          <%= link_to t(:edit), edit_admin_report_path(report) %> |
-          <%= link_to t(:destroy), {:action => 'destroy', :id => report.id}, :method => :post , :confirm => t(:are_you_sure) %>
-          ] &nbsp;
-          <%= t(:display) %>: <%= links_to_report(report) %>
-        </li>
-    <% end %></ul>
-  </fieldset>
+  <h4 style="margin-bottom:0;"><%= t(:saved_reports) %></h4>
+  <table class="index">
+    <tr>
+      <th><%= t("name") %></th>
+      <th><%= t("display") %></th>
+      <th></th>
+    </tr>
+    <% @reports.each do |report| %>
+      <tr id="<%= dom_id(report) %>">
+        <td><%= report.to_s %></td>
+        <td>
+          <%= links_to_report(report) %>
+        </td>
+        <td>
+          <%=  link_to_with_icon('edit', t("edit"), edit_admin_report_path(report))  %>
+          &nbsp;
+          <%= link_to_delete(report, {:url => admin_report_path(report) }) %>
 
-  <fieldset>
+        </td>
+
+      </tr>
+    <% end %>
+  </table>
+
+  <!-- <fieldset>
     <legend><%= t(:monthly_reports) %></legend>
     <table>
       <thead>
@@ -41,7 +51,7 @@
         <% end %>
       </tbody>
     </table>
-  </fieldset>
+  </fieldset> -->
 </div>
 
 <% content_for :sidebar do %>

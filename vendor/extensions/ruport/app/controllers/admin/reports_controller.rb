@@ -63,7 +63,7 @@ class Admin::ReportsController < Admin::BaseController
 
   def destroy
     Report.find(params[:id]).destroy
-    redirect_to :back
+    render_js_for_destroy
   end
 
   def options

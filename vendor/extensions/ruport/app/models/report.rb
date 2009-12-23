@@ -1,6 +1,6 @@
 class Report < ActiveRecord::Base
   AVAILABLE_REPORTS = [
-      'DetailedSalesReport', 'ProductSalesReport'
+      'TotalSalesReport', 'DetailedSalesReport', 'ProductSalesReport'
   ]
   REPORT_PATH = File.join(RAILS_ROOT, "public", "saved_reports")+"/"
 
