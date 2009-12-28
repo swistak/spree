@@ -63,6 +63,11 @@ class CheckoutsController < Spree::BaseController
       @checkout.errors.add t(:email) unless @checkout.email.present?
     end
   end
+
+  def can_access?
+    session[:order_token] ||= params[:order_token]
+    parent_object.grant_access?(session[:order_token])
+  end
     
   private
   
@@ -88,8 +93,8 @@ class CheckoutsController < Spree::BaseController
     unless params[:checkout] and params[:checkout][:coupon_code]
       # do not create these defaults if we're merely updating coupon code, otherwise we'll have a validation error
       if user = parent_object.user || current_user
-        @object.shipment.address ||= user.ship_address
-        @object.bill_address     ||= user.bill_address
+        @object.shipment.address ||= user.ship_address.clone unless user.ship_address.nil?
+        @object.bill_address     ||= user.bill_address.clone unless user.bill_address.nil?
       end
       @object.shipment.address ||= Address.default
       @object.bill_address     ||= Address.default
