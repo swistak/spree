@@ -1,14 +1,16 @@
 class Report < ActiveRecord::Base
   AVAILABLE_REPORTS = [
-      'DetailedSalesReport'
+      'TotalSalesReport', 'DetailedSalesReport', 'ProductSalesReport'
   ]
   REPORT_PATH = File.join(RAILS_ROOT, "public", "saved_reports")+"/"
-   
+
   AVAILABLE_FORMATS = ['html', 'pdf', 'csv']
 
   validates_presence_of :format, :report_type, :report_title
   validates_inclusion_of :report_type, :in => AVAILABLE_REPORTS
   validates_inclusion_of :format,      :in => AVAILABLE_FORMATS
+
+  has_many :report_options
 
   before_save :set_defaults
 
@@ -52,14 +54,16 @@ class Report < ActiveRecord::Base
   def render(format = nil)
     set_defaults
 
+    options = self.attributes.merge(self.preferences)
+
     format ||= self.format
     Timeout.timeout(180) do
-      report_template.render(format.to_sym, self.attributes)
+      report_template.render(format.to_sym, options)
     end
   end
 
   def report_template
-    report_type.constantize
+    "#{self.class}Controller".constantize
   end
 
   def file_name

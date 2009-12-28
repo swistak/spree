@@ -10,16 +10,16 @@ module Admin
         :action => action,
         :id => report.id,
         :format => options[:format],
-        :report => options,
+        report.class.to_s.tableize.singularize.to_sym => options
       }
-      
+
       link_to label, options
     end
 
     def links_to_report(report, overrides={})
       ['html','pdf','csv'].map{|f|
         link_to_report(report, overrides.merge(:label => f, :format => f))
-      }.join(" | ") 
+      }.join(" | ")
     end
   end
 end

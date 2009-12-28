@@ -8,25 +8,26 @@ module Spree
     class PreferenceDefinition
       def initialize(attribute, *args) #:nodoc:
         options = args.extract_options!
-        options.assert_valid_keys(:default)
-        
+        options.assert_valid_keys(:default, :values)
+
         @type = args.first ? args.first.to_s : 'boolean'
-        
+        @values = options[:values]
+
         # Create a column that will be responsible for typecasting
         @column = ActiveRecord::ConnectionAdapters::Column.new(attribute.to_s, options[:default], @type == 'any' ? nil : @type)
       end
-      
+
       # The attribute which is being preferenced
       def attribute
         @column.name
       end
-      
+
       # The default value to use for the preference in case none have been
-      # previously defined      
+      # previously defined
       def default_value
         @column.default
       end
-      
+
       # Typecasts the value based on the type of preference that was defined
       def type_cast(value)
         if @type == 'any'
@@ -35,7 +36,7 @@ module Spree
           @column.type_cast(value)
         end
       end
-      
+
       # Typecasts the value to true/false depending on the type of preference
       def query(value)
         unless value = type_cast(value)
@@ -47,6 +48,11 @@ module Spree
             !value.blank?
           end
         end
+      end
+
+      # List of possible values that can be set for the preference.
+      def values
+        @values
       end
     end
   end

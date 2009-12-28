@@ -93,7 +93,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :taxonomies, :member => { :get_children => :get } do |taxonomy|
       taxonomy.resources :taxons
     end
-    admin.resources :reports, :only => [:index, :show], :collection => {:sales_total => :get}
 
     admin.resources :shipments
     admin.resources :shipping_methods

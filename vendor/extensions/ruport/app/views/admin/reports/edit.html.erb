@@ -1,15 +1,23 @@
 <% content_for :head do %>
-  <% CalendarDateSelect.format[:javascript_include] = 'format_iso_date.js' %>
-  <%= calendar_date_select_includes %>
   <%= stylesheet_link_tag 'reports' %>
 <% end %>
+
+<div class='toolbar'>
+  <ul class='actions'>
+    <li>
+      <%= button_link_to_function t("edit_report"), "if($('div#new_report').is(':hidden')){
+                                                        $('div#new_report').slideDown();
+                                                      }else{
+                                                        $('div#new_report').slideUp();}", :icon => 'edit', :id => "edit_report" %>
+    </li>
+  </ul>
+  <br class='clear' />
+</div>
 
 <div id="new_report" class="horizontal">
   <h3><%= t(:edit_report) %></h3>
   <% form_for @report, :url => {:action => :edit} do |f| %>
     <%= render :partial => 'form', :locals => {:f => f} %>
-    <%= f.submit t(:update_report), :name => 'update' %>
-    <%= f.submit t(:save_report), :name => 'save'  %>
   <% end %>
   <br style="clear: both" />
 </div>

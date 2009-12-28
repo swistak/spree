@@ -9,7 +9,7 @@
 }
 
 #report table tr {
-  
+
 }
 
 #report table tr.odd {
@@ -22,6 +22,10 @@ label.block {
 
 fieldset {
   margin: 5px;
+}
+
+.horizontal {
+  display: none;
 }
 
 .horizontal fieldset {
