@@ -25,7 +25,7 @@ module Spree::Search
     
     params[:search] = @product_group.scopes_to_hash if @keywords.blank?
 
-    base_scope = Spree::Config[:allow_backorders] ? Product.active : Product.active.on_hand
+    base_scope = Product.active
     @products_scope = @product_group.apply_on(base_scope)
 
     @products = @products_scope.paginate({
