@@ -12,7 +12,7 @@ module Formatter
       if data[:orders]
         output << data[:orders].to_csv(:show_table_headers => true)
       else
-        output << "Brak zamówień w określonym przedziale czasowym"
+        output << t(:no_orders, :scope => :reports)
       end
     end
 

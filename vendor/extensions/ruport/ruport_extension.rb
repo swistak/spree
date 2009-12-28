@@ -21,6 +21,7 @@ class RuportExtension < Spree::Extension
       Dir.glob(File.join(File.dirname(__FILE__), 'app/reports/**/*.rb')).each{|report|
         require(report)
       }
+      require 'model_extensions_for_ruport'
     else
       FileUtils.cp Dir.glob(File.join(base, "public/stylesheets/*.css")), File.join(RAILS_ROOT, "public/stylesheets/")
       FileUtils.cp Dir.glob(File.join(base, "public/javascripts/*.js")), File.join(RAILS_ROOT, "public/javascripts")
@@ -28,47 +29,7 @@ class RuportExtension < Spree::Extension
       Dir.glob(File.join(File.dirname(__FILE__), 'app/reports/**/*.rb')).each{|report|
         load(report)
       }
-    end
-
-    Order.acts_as_reportable({
-        :only => ['number']
-    })
-    LineItem.acts_as_reportable({
-        :include => :variant,
-        :only => ['quantity', 'price']
-    })
-    Variant.acts_as_reportable({
-        :only => 'sku',
-        :include => :product
-    })
-    Product.acts_as_reportable({
-        :only => 'name'
-    })
-    Checkout.acts_as_reportable({
-        :only => ['completed_at']
-    })
-    Adjustment.acts_as_reportable({
-        :only => ['total']
-    })
-
-    Variant.class_eval do
-      def options_text
-        self.option_values.map { |ov| ov.presentation }.to_sentence({:words_connector => ", ", :two_words_connector => ", "})
-      end
-
-      def display_name
-        "#{product.name}" + (option_values.empty? ? '' : "(#{options_text})")
-      end
-    end
-
-    LineItem.class_eval do
-      def interest_percent
-        Spree::Config[:interest] || 0
-      end
-
-      def interest
-        interest_percent / BigDecimal("100") * total
-      end
+      load 'model_extensions_for_ruport.rb'
     end
   end
 end

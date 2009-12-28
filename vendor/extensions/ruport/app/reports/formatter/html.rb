@@ -23,8 +23,8 @@ Ruport::Formatter::HTML.class_eval do
 
   def default_header
     output << "<h2>#{options.report_title}</h2>"
-    output <<  options.start_at.strftime("<strong>From:</strong> %m/%d/%Y")
-    output <<  options.end_at.strftime(" <strong>to:</strong> %m/%d/%Y")
+    output <<  options.start_at.strftime("<strong>From:</strong> %d-%m-%Y")
+    output <<  options.end_at.strftime(" <strong>to:</strong> %d-%m-%Y")
     output << "<hr />"
   end
 end
