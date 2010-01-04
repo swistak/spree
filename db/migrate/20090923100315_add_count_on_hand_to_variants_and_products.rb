@@ -14,7 +14,7 @@ class AddCountOnHandToVariantsAndProducts < ActiveRecord::Migration
               inventory_units
             WHERE 
               inventory_units.variant_id = variants.id AND 
-              state = E'on_hand'
+              state = 'on_hand'
           );
       }
 
