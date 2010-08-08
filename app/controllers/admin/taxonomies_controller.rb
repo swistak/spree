@@ -10,6 +10,4 @@ class Admin::TaxonomiesController < Admin::BaseController
       render :partial => 'edit.html.erb'
     end
   end
-
- 
 end
