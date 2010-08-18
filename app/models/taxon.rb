@@ -23,9 +23,13 @@ class Taxon < ActiveRecord::Base
 
   # Creates permalink based on .to_url method provided by stringx gem
   def set_permalink
-    self.permalink = (ancestors.reverse + [self]).collect { |taxon| 
-      taxon.name.to_url 
-    }.join("/") + "/"
+    self.permalink = if parent
+      (parent.ancestors + [parent, self]).map{ |taxon|
+        taxon.name.to_url
+      }.join("/") + "/"
+    else
+      self.name.to_url+"/"
+    end
   end
   
   # obsolete, kept for backwards compat 
