@@ -25,6 +25,9 @@ class Admin::PaymentsController < Admin::BaseController
         until @order.checkout.state == "complete"
           @order.checkout.next!
         end
+        # Checkout seems to reload object some place I cannot track down, and it's erasing CC number.
+        # So we need to process the order again, of CC transaction haven't completed.
+        object.process! if @order.reload.payments.empty? && @order.checkout.reload.payments.empty?
         self.notice = t('new_order_completed')
         redirect_to admin_order_url(@order)
       end

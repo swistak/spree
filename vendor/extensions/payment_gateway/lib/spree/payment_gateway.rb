@@ -7,6 +7,7 @@ module Spree
 
     def authorize(amount, payment)
       # ActiveMerchant is configured to use cents so we need to multiply order total by 100
+      payment_gateway = payment.payment_method || self.payment_gateway
       response = payment_gateway.authorize((amount * 100).round, self, gateway_options(payment))
       gateway_error(response) unless response.success?
 
@@ -24,6 +25,7 @@ module Spree
 
     def capture(payment)
       return unless transaction = authorization(payment)
+      payment_gateway = payment.payment_method || self.payment_gateway
       if payment_gateway.payment_profiles_supported?
         # Gateways supporting payment profiles will need access to creditcard object because this stores the payment profile information
         # so supply the authorization itself as well as the creditcard, rather than just the authorization code
@@ -48,6 +50,7 @@ module Spree
 
     def purchase(amount, payment)
       #combined Authorize and Capture that gets processed by the ActiveMerchant gateway as one single transaction.
+      payment_gateway = payment.payment_method || self.payment_gateway
       response = payment_gateway.purchase((amount * 100).round, self, gateway_options(payment))
 
       gateway_error(response) unless response.success?
@@ -66,7 +69,7 @@ module Spree
 
     def void(payment)
       return unless transaction = purchase_or_authorize_transaction_for_payment(payment)
-
+      payment_gateway = payment.payment_method || self.payment_gateway
       response = payment_gateway.void(transaction.response_code, self, minimal_gateway_options(payment))
       gateway_error(response) unless response.success?
 
@@ -84,7 +87,7 @@ module Spree
 
     def credit(payment, amount=nil)
       return unless transaction = purchase_or_authorize_transaction_for_payment(payment)
-
+      payment_gateway = payment.payment_method || self.payment_gateway
       amount ||= payment.order.outstanding_credit
 
       if payment_gateway.payment_profiles_supported?

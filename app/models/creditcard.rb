@@ -10,6 +10,7 @@ class Creditcard < ActiveRecord::Base
 
 
   def process!(payment)
+    return unless number
     begin
       if Spree::Config[:auto_capture]
         purchase(payment.amount.to_f, payment)
